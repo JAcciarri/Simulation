@@ -60,7 +60,7 @@ plt.subplot(2, 2, 1)
 plt.plot([0,ITERATIONS], [1/len(base_array), 1/len(base_array)], label="Expected RF")
 plt.legend(loc="lower right")
 plt.title('Relative Frequency')
-plt.ylabel('RF')
+plt.ylabel('RF for number ' + str(MY_NUMBER))
 plt.xlabel('N(iteration)')
 
 plt.subplot(2, 2, 2)
