@@ -4,9 +4,10 @@ import numpy as np
 
 MY_NUMBER = int(input('Choose your roulette number(0-36): '))
 while(MY_NUMBER<0 or MY_NUMBER>36):
-    myNumber = int(input('Choose your roulette number (0-36): '))
+    MY_NUMBER = int(input('Choose your roulette number(0-36): '))
+
 #Set a convenient value for N (ITERATIONS)
-ITERATIONS = abs(int(input('How many iterations do you want?: ')))
+ITERATIONS = 1000
 
 fr_array = []
 mean_array = []
@@ -14,9 +15,8 @@ std_array = []
 var_array = []
 values = []
 base_array = np.arange(37)
-#general_mean_array = [18]
 
-for _ in range(5):
+for c in range(6):
     count = 0
     fr_array.clear()
     mean_array.clear()
@@ -33,16 +33,10 @@ for _ in range(5):
         mean_array.append(np.mean(values))
         std_array.append(np.std(values))
         var_array.append(np.var(values))
-        """
-        tempvalue = general_mean_array[n]
-        print('Taken ', str(general_mean_array[n]))
-        general_mean_array.pop(n)
-        general_mean_array.append(np.mean( [mean_array[n], tempvalue] ))
-        print(general_mean_array)
-        """
+
 
     plt.subplot(2, 2, 1)
-    plt.ylim(0, 0.15)
+    plt.ylim(-0.1, 0.2)
     plt.plot(fr_array)
 
     plt.subplot(2, 2, 2)
@@ -58,14 +52,14 @@ plt.title('Roulette Simulator')
 
 plt.subplot(2, 2, 1)
 plt.plot([0,ITERATIONS], [1/len(base_array), 1/len(base_array)], label="Expected RF")
-plt.legend(loc="lower right")
+plt.legend(loc="upper right")
 plt.title('Relative Frequency')
 plt.ylabel('RF for number ' + str(MY_NUMBER))
 plt.xlabel('N(iteration)')
 
 plt.subplot(2, 2, 2)
 plt.plot([0,ITERATIONS], [np.mean(base_array), np.mean(base_array)], label="Expected MV")
-plt.legend(loc="lower right")
+plt.legend(loc="upper right")
 plt.title('Mean Value')
 plt.ylabel('MV')
 plt.xlabel('N(iteration)')
