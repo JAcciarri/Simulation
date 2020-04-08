@@ -3,6 +3,7 @@
 ##### Example 1
 - 50 ITERATIONS (N)
 - 1 SIMULTANEOUS GRAPH
+
 ![50-Iterations](/tp1.1/screenshots/R_50_iterations.png)
 
 ##### Example 2
