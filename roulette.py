@@ -7,7 +7,12 @@ while(MY_NUMBER<0 or MY_NUMBER>36):
     MY_NUMBER = int(input('Choose your roulette number(0-36): '))
 
 #Set a convenient value for N (ITERATIONS)
-ITERATIONS = 1000
+ITERATIONS = int(input('How many iterations?: '))
+
+#Not allowed more than 10 simultaneous graphs because of efficiency
+SIMULTANEITY = int (input('Choose how many simultaneous graphs you want: '))
+while(SIMULTANEITY<1 or SIMULTANEITY>10):
+    SIMULTANEITY = int(input('Please choose between 1 and 10 simultaneous graphs: '))
 
 fr_array = []
 mean_array = []
@@ -16,24 +21,27 @@ var_array = []
 values = []
 base_array = np.arange(37)
 
-for c in range(6):
+
+for c in range(SIMULTANEITY):
     count = 0
     fr_array.clear()
     mean_array.clear()
     std_array.clear()
     var_array.clear()
     values.clear()
-
-    for n in range(ITERATIONS):
-        rand = randint(0, 36)
-        values.append(rand)
-        if (rand == MY_NUMBER):
-            count+=1
-        fr_array.append(count / (n+1))
+        
+    for n in range(1, ITERATIONS):
+        for i in range(n):
+            rand = randint(0, 36)
+            values.append(rand)
+            if (rand == MY_NUMBER):
+                count+=1
+        fr_array.append(count / (n))
         mean_array.append(np.mean(values))
         std_array.append(np.std(values))
         var_array.append(np.var(values))
-
+        values.clear()
+        count = 0
 
     plt.subplot(2, 2, 1)
     plt.ylim(-0.1, 0.2)
@@ -49,6 +57,7 @@ for c in range(6):
     plt.plot(std_array)
 
 plt.title('Roulette Simulator')
+
 
 plt.subplot(2, 2, 1)
 plt.plot([0,ITERATIONS], [1/len(base_array), 1/len(base_array)], label="Expected RF")
@@ -78,4 +87,5 @@ plt.ylabel('STD')
 plt.xlabel('N(iteration)')
 plt.title('Standard Deviation')
 
+plt.tight_layout
 plt.show()
