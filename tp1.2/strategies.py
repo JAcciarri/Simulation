@@ -15,6 +15,7 @@ def betToNumber(numbers, games, initCapital):
         if(rand == chosen):
             capital = capital + betValue * 36
         graph.append(capital)
+    print()
     return graph
 
 def betToColor(numbers, games, initCapital):
@@ -31,6 +32,7 @@ def betToColor(numbers, games, initCapital):
         if(numbers[rand].color == myColor):
             capital += (betValue * 2)
         graph.append(capital)
+    print()
     return graph
     
 def betAsSofovich(numbers, games, initCapital):
@@ -49,4 +51,5 @@ def betAsSofovich(numbers, games, initCapital):
             if(rand != notChosen_1 and rand != notChosen_2):
                 capital = capital + betValue * 36
             graph.append(capital)
+    print()
     return graph

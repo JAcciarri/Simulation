@@ -28,25 +28,30 @@ def select(opt):
     elif (opt == 2):
         graph = roulette.strategy('color')
         plt.title('Bet to a color')
-    else:
+    elif (opt == 3):
         graph = roulette.strategy('sofovich')
         plt.title('Bet AS Sofovich')
+    else:
+        print('Good Bye!\n')
+        exit()
     plt.plot(graph)
 
 
 # Main
 if __name__ == '__main__':
     roulette = Roulette()
-    print('ROULETTE SIMULATOR')
-    print('Welcome. Do you want to play?')
-    print()
-    strat = 0
-    while(strat != 1 and strat != 2 and strat != 3):
-        strat = int(input('Please choose a strategy: (1 or 2 or 3)\n1: Bet to a single number\n2: Bet to a color\n3: Bet AS Sofovich\n'))
-    print()
-    select(strat)
+    strat = -1
+    while (strat != 0):
+        print('ROULETTE SIMULATOR')
+        print('Welcome. Do you want to play?')
+        print()
+        while(strat != 0 and strat != 1 and strat != 2 and strat != 3):
+            strat = int(input('Please choose a strategy: (1 or 2 or 3)\n1: Bet to a single number\n2: Bet to a color\n3: Bet AS Sofovich\n0: Exit Game\n'))
+        print()
+        select(strat)
+        strat = -1
 
-    # Graph
-    plt.ylabel('Capital')
-    plt.xlabel('N (bets)')
-    plt.show()
+        # Graph
+        plt.ylabel('Capital')
+        plt.xlabel('N (bets)')
+        plt.show()

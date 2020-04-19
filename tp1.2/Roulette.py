@@ -27,7 +27,7 @@ class Roulette(object):
                 self.numbers[i+1] = RouletteNumber(i+1, 'black')
             else:
                 self.numbers[i] = RouletteNumber(i, 'black')
-                self.numbers[i+1] = RouletteNumber(i, 'red')
+                self.numbers[i+1] = RouletteNumber(i+1, 'red')
 
     # Strategy Settings
     def strategy(self, choise):
