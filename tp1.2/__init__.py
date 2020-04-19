@@ -7,14 +7,12 @@ TP1.2 - Roulette Economic and Mathematical Analysis
 
 Authors: Joshua Acciarri (44823) & Nicolás Antonelli (44852)
 Professor: Torres, Juan
-Final Date: 15/04/2020
+Final Date: 01/05/2020
 
 Python Libraries/Modules Used:
-    - Numpy: Random Numbers, Statistical Functions, Array Manipulation
+    - Numpy: Random Numbers and Array Manipulation
     - Pyplot: Matplotlib Module for Graph Plotting
-    - Time: Module used for processing time measurement
 
-Note: All Printed Messages and Plotted Graphs are in SPANISH
 """
 
 from Roulette import Roulette
