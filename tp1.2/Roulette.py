@@ -29,20 +29,26 @@ class Roulette(object):
                 self.numbers[i] = RouletteNumber(i, 'black')
                 self.numbers[i+1] = RouletteNumber(i+1, 'red')
 
-    # Strategy Settings
-    def strategy(self, choise):
-        games = int(input('How many games do you want to play? '))
-        capital = 10000
-        if (choise == 'number'):
-            return strats.betToNumber(self.numbers, games, capital)
-        elif (choise == 'color'):
-            return strats.betToColor(self.numbers, games, capital)
-        else:
-            return strats.betAsSofovich(self.numbers, games, capital)
-        
+    # Player parameters
+    def configurePlayer(self):
+        self.GAMES = int(input('How many games do you want to play? '))
+        self.INITCAPITAL = 1000  #this can be asked as well
+
     # Getters and Setters
     def getNumbers(self):
         return self.numbers
 
     def setNumbers(self, numbers):
         self.numbers = numbers
+
+    def getGames(self):
+        return self.GAMES
+    
+    def setGames(self, games):
+        self.GAMES =  games
+
+    def getInitCapital(self):
+        return self.INITCAPITAL
+    
+    def setInitCapital(self, initC):
+        self.INITCAPITAL = initC

@@ -3,52 +3,68 @@
 
 import numpy as np
 
-def betToNumber(numbers, games, initCapital):
-    capital = initCapital
+def betToNumber(roulette):
+    capital = roulette.getInitCapital()
     betValue = 1
-    graph = [initCapital]
+    graph = [capital]
     chosen = int(input('Choose your number: '))
-    for i in range(games):
+    for i in range(roulette.getGames()):
         capital -= betValue
-        rand = np.random.randint(0, len(numbers))
+        rand = np.random.randint(0, len(roulette.getNumbers()))
         if(rand == chosen):
             capital = capital + betValue * 36
         graph.append(capital)
     print()
     return graph
 
-def betToColor(numbers, games, initCapital):
-    capital = initCapital
+def betToColor(roulette):
+    capital = roulette.getInitCapital()
     betValue = 1
-    graph = [initCapital]
+    graph = [capital]
     myColor = str(input('Now choose a color: (red) or (black): '))
     while(myColor != 'red' and myColor != 'black'):
         myColor = str(input('Please choose a color: (red) or (black): '))
 
-    for i in range(games):
+    for i in range(roulette.getGames()):
         capital -= betValue
         rand = np.random.randint(0, 37)
-        if(numbers[rand].color == myColor):
+        if(roulette.getNumbers()[rand].color == myColor):
             capital += (betValue * 2)
         graph.append(capital)
     print()
     return graph
     
-def betAsSofovich(numbers, games, initCapital):
+def betAsSofovich(roulette):
     #This will probably be deleted
-    capital = initCapital
+    capital = roulette.getInitCapital()
     betValue = 100
-    graph = [initCapital]
+    graph = [capital]
     notChosen_1 = int(input('Choose your NOT chosen number 1: '))
     notChosen_2 = int(input('Choose your NOT chosen number 2: ')) 
-    for i in range(games):
+    for i in range(roulette.getGames()):
         capital -= (betValue * 35)
-        rand = np.random.randint(0, len(numbers))
+        rand = np.random.randint(0, len(roulette.getNumbers()))
         if(rand != notChosen_1 and rand != notChosen_2):
             capital = capital + betValue * 36
         graph.append(capital)
     return graph
 
-def betMartingala():
-    #Write code
-    return 
+def betMartingale(roulette):
+    capital = roulette.getInitCapital()
+    betValue = 10
+    graph = [capital]
+    chosen = int(input('Choose your number: '))
+    for i in range(roulette.getGames()):
+        capital -= betValue
+        rand = np.random.randint(0, len(roulette.getNumbers()))
+        if(rand != chosen):
+            # Duplicate previous bet
+            betValue = betValue * 2
+        else:
+            # Reinitialize betValue to 1
+            capital = capital + betValue * 36
+            betValue = 1
+        graph.append(capital)
+    print('Final capital: ', capital)
+    print()
+    return graph
