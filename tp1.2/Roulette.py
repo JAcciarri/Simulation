@@ -13,7 +13,7 @@ class Roulette(object):
     def __init__(self):
         self.numbers = np.zeros(37, dtype=RouletteNumber)
 
-        # Roulette's Numbers Initialization
+        # Roulette's numbers initialization
         self.numbers[0] = RouletteNumber(0, 'green')
         for i in range(1, len(self.numbers), 2):
             if (i <= 10):
@@ -31,8 +31,8 @@ class Roulette(object):
 
     # Player parameters
     def configurePlayer(self):
-        self.GAMES = int(input('How many games do you want to play? '))
-        self.INITCAPITAL = 1000  #this can be asked as well
+        self.GAMES = int(float(input('How many games do you want to play? ')))
+        self.INITCAPITAL = 1000  # this can be asked as well
 
     # Getters and Setters
     def getNumbers(self):
@@ -52,3 +52,4 @@ class Roulette(object):
     
     def setInitCapital(self, initC):
         self.INITCAPITAL = initC
+    

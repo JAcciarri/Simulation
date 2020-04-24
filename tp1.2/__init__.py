@@ -17,8 +17,7 @@ Python Libraries/Modules Used:
 
 from Roulette import Roulette
 from matplotlib import pyplot as plt
-from strategies import betToNumber, betToColor, betAsSofovich, betMartingale
-
+from strategies import *
 
 
 def select(opt):
@@ -30,6 +29,7 @@ def select(opt):
         if (opt == 1):
             graph = betToNumber(roulette)
             plt.title('Bet to a single number')
+            
         elif (opt == 2):
             graph = betToColor(roulette)
             plt.title('Bet to a color')
@@ -43,6 +43,7 @@ def select(opt):
             print('Good Bye!\n')
             exit()
         plt.plot(graph)
+        return graph
 
 
 # Main
@@ -54,11 +55,15 @@ if __name__ == '__main__':
         print('Welcome. Do you want to play?')
         print()
         while(strat != 0 and strat != 1 and strat != 2 and strat != 3 and strat != 4):
-            strat = int(input('Please choose a strategy: (1 or 2 or 3 or 4)\n1: Bet to a single number\n2: Bet to a color\n3: Bet AS Sofovich\n4: Bet Martingale\n0: Exit Game\n'))
+            strat = int(float(input('Please choose a strategy: (1 or 2 or 3 or 4)\n1: Bet to a single number\n2: Bet to a color\n3: Bet AS Sofovich\n4: Bet Martingale\n0: Exit Game\n')))
         print()
-        select(strat)
+        graph = select(strat)
         strat = -1
         # Graph
+        fig = plt.gcf()
+        fig.canvas.set_window_title("Strategy Analysis")
         plt.ylabel('Capital')
         plt.xlabel('N (bets)')
+        plt.axhline(roulette.getInitCapital(), color='red', linestyle='--', label="Init Capital")
+        plt.legend()
         plt.show()

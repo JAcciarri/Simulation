@@ -7,7 +7,7 @@ def betToNumber(roulette):
     capital = roulette.getInitCapital()
     betValue = 1
     graph = [capital]
-    chosen = int(input('Choose your number: '))
+    chosen = int(float(input('Choose your number: ')))
     for i in range(roulette.getGames()):
         capital -= betValue
         rand = np.random.randint(0, len(roulette.getNumbers()))
@@ -35,12 +35,12 @@ def betToColor(roulette):
     return graph
     
 def betAsSofovich(roulette):
-    #This will probably be deleted
+    # This will probably be deleted
     capital = roulette.getInitCapital()
     betValue = 100
     graph = [capital]
-    notChosen_1 = int(input('Choose your NOT chosen number 1: '))
-    notChosen_2 = int(input('Choose your NOT chosen number 2: ')) 
+    notChosen_1 = int(float(input('Choose your NOT chosen number 1: ')))
+    notChosen_2 = int(float(input('Choose your NOT chosen number 2: ')))
     for i in range(roulette.getGames()):
         capital -= (betValue * 35)
         rand = np.random.randint(0, len(roulette.getNumbers()))
@@ -53,7 +53,7 @@ def betMartingale(roulette):
     capital = roulette.getInitCapital()
     betValue = 10
     graph = [capital]
-    chosen = int(input('Choose your number: '))
+    chosen = int(float(input('Choose your number: ')))
     for i in range(roulette.getGames()):
         capital -= betValue
         rand = np.random.randint(0, len(roulette.getNumbers()))
