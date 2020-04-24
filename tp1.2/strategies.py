@@ -21,7 +21,7 @@ def betToColor(roulette):
     capital = roulette.getInitCapital()
     betValue = 1
     graph = [capital]
-    myColor = str(input('Now choose a color: (red) or (black): '))
+    myColor = ""
     while(myColor != 'red' and myColor != 'black'):
         myColor = str(input('Please choose a color: (red) or (black): '))
 
@@ -49,20 +49,36 @@ def betAsSofovich(roulette):
         graph.append(capital)
     return graph
 
+# Classic and Modified Martingale
 def betMartingale(roulette):
     capital = roulette.getInitCapital()
-    betValue = 10
+    betValue = 1
     graph = [capital]
-    chosen = int(float(input('Choose your number: ')))
+    modified = ""
+    while(modified != 'Y' and modified != 'N'):
+        modified = str.upper(str(input('There are two types of Martingale. Classic and Modified. The default is Classic. Do you want to change to Modified? (Y/N) ')))
+
+    myColor = ""
+    while(myColor != 'red' and myColor != 'black'):
+        myColor = str(input('Please choose a color: (red) or (black): '))
+
     for i in range(roulette.getGames()):
         capital -= betValue
-        rand = np.random.randint(0, len(roulette.getNumbers()))
-        if(rand != chosen):
-            # Duplicate previous bet
-            betValue = betValue * 2
+        rand = np.random.randint(0, 37)
+        color = roulette.getNumbers()[rand].color
+        if(roulette.getNumbers()[rand].color == myColor):
+            capital += (betValue * 2)
+        graph.append(capital)
+
+        # Duplicate previous bet (modified: adds +1 units)
+        if(myColor != color):
+            if (modified == 'Y'):
+                betValue = betValue * 2 + 1
+            else:
+                betValue = betValue * 2
         else:
             # Reinitialize betValue to 1
-            capital = capital + betValue * 36
+            capital += betValue * 2
             betValue = 1
         graph.append(capital)
     print('Final capital: ', capital)

@@ -15,8 +15,8 @@ Python Libraries/Modules Used:
 
 """
 
-from Roulette import Roulette
 from matplotlib import pyplot as plt
+from Roulette import Roulette
 from strategies import *
 
 
@@ -55,11 +55,15 @@ if __name__ == '__main__':
         print('Welcome. Do you want to play?')
         print()
         while(strat != 0 and strat != 1 and strat != 2 and strat != 3 and strat != 4):
-            strat = int(float(input('Please choose a strategy: (1 or 2 or 3 or 4)\n1: Bet to a single number\n2: Bet to a color\n3: Bet AS Sofovich\n4: Bet Martingale\n0: Exit Game\n')))
+            strat = int(float(input('Please choose a strategy: (1 or 2 or 3 or 4)\n1: Bet to a single number\n2: Bet to a color\n3: Bet AS Sofovich\n4: Bet Martingale (Classic and Modified)\n\n0: Exit Game\n')))
         print()
-        graph = select(strat)
-        strat = -1
+
+        # Exit Game
+        if (strat == 0):
+            exit()
+        
         # Graph
+        graph = select(strat)
         fig = plt.gcf()
         fig.canvas.set_window_title("Strategy Analysis")
         plt.ylabel('Capital')
@@ -67,3 +71,6 @@ if __name__ == '__main__':
         plt.axhline(roulette.getInitCapital(), color='red', linestyle='--', label="Init Capital")
         plt.legend()
         plt.show()
+
+        # Default Strat to -1 for re-start game simulator correctly
+        strat = -1
