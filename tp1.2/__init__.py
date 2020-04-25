@@ -14,7 +14,7 @@ Python Libraries/Modules Used:
 
 Classes/Other Files:
     -RouletteNumber: Object with a value from 0 to 36, and a color
-    -Roulette: Object that contains 37 RouletteNumbers and Strategy methods
+    -Roulette: Object (European Roulette) that contains 37 RouletteNumbers and Strategy methods
     -Strategies: File with the definition of all strategies we use
 '''
 
@@ -42,6 +42,9 @@ def select(opt):
         elif (opt == 4):
             graph = betMartingale(roulette)
             plt.title('Bet Martingale')
+        elif (opt == 5):
+            graph = betDalembert(roulette)
+            plt.title('Bet D\'Alembert')
         else:
             print('Good Bye!\n')
             exit()
@@ -57,8 +60,8 @@ if __name__ == '__main__':
         print('ROULETTE SIMULATOR')
         print('Welcome. Do you want to play?')
         print()
-        while(strat != 0 and strat != 1 and strat != 2 and strat != 3 and strat != 4):
-            strat = int(float(input('Please choose a strategy: (1 or 2 or 3 or 4)\n1: Bet to a single number\n2: Bet to a color\n3: Bet AS Sofovich\n4: Bet Martingale (Classic and Modified)\n\n0: Exit Game\n')))
+        while(strat not in [0, 1, 2, 3, 4, 5]):
+            strat = int(float(input('Please choose a strategy: (1 or 2 or 3 or 4 or 5)\n1: Bet to a single number\n2: Bet to a color\n3: Bet AS Sofovich\n4: Bet Martingale (Classic and Modified)\n5: Bet D\'Alambert\n\n0: Exit Game\n')))
         print()
 
         # Exit Game
@@ -67,7 +70,10 @@ if __name__ == '__main__':
         
         # Graph
         graph = select(strat)
-        plt.ylim(bottom=0)
+        if min(graph) >= 0:
+            plt.ylim(bottom=0, top=max(graph)*1.1)
+        else:
+            plt.ylim(bottom=min(graph)*1.1, top=max(graph)*1.1)
         fig = plt.gcf()
         fig.canvas.set_window_title("Strategy Analysis")
         plt.ylabel('Capital')

@@ -14,10 +14,10 @@ def betToNumber(roulette):
         capital -= betValue
         rand = np.random.randint(0, len(roulette.getNumbers()))
         if(rand == chosen):
-            capital = capital + betValue * 36
+            capital += betValue * 36
         graph.append(capital)
     print('Final capital: ', capital)
-    print("Your total play time would be about: " + str(roulette.getGames() * roulette.getBetTime() / 60) + " min")
+    print("Your total play time would be about: " + str(roulette.getGames() * roulette.getBetTime() // 60) + " min")
     print()
     return graph
 
@@ -34,10 +34,10 @@ def betToColor(roulette):
         capital -= betValue
         rand = np.random.randint(0, 37)
         if(roulette.getNumbers()[rand].color == myColor):
-            capital += (betValue * 2)
+            capital += betValue * 2
         graph.append(capital)
     print('Final capital: ', capital)
-    print("Your total play time would be about: " + str(roulette.getGames() * roulette.getBetTime() / 60) + " min")
+    print("Your total play time would be about: " + str(roulette.getGames() * roulette.getBetTime() // 60) + " min")
     print()
     return graph
 
@@ -53,10 +53,10 @@ def betAsSofovich(roulette):
         capital -= (betValue * 35)
         rand = np.random.randint(0, len(roulette.getNumbers()))
         if(rand != notChosen_1 and rand != notChosen_2):
-            capital = capital + betValue * 36
+            capital += betValue * 36
         graph.append(capital)
     print('Final capital: ', capital)
-    print("Your total play time would be about: " + str(roulette.getGames() * roulette.getBetTime() / 60) + " min")
+    print("Your total play time would be about: " + str(roulette.getGames() * roulette.getBetTime() // 60) + " min")
     print()
     return graph
 
@@ -78,7 +78,7 @@ def betMartingale(roulette):
         rand = np.random.randint(0, 37)
         color = roulette.getNumbers()[rand].color
         if(color == myColor):
-            capital += (betValue * 2)
+            capital += betValue * 2
 
         # Duplicate previous bet (modified: adds +1 units)
         if(myColor != color):
@@ -91,6 +91,34 @@ def betMartingale(roulette):
             betValue = initBetValue
         graph.append(capital)
     print('Final capital: ', capital)
-    print("Your total play time would be about: " + str(roulette.getGames() * roulette.getBetTime() / 60) + " min")
+    print("Your total play time would be about: " + str(roulette.getGames() * roulette.getBetTime() // 60) + " min")
+    print()
+    return graph
+
+# D'Alembert Strategy
+def betDalembert(roulette):
+    capital = roulette.getInitCapital()
+    betValue = initBetValue = 1
+    graph = [capital]
+
+    myColor = ""
+    while(myColor != 'red' and myColor != 'black'):
+        myColor = str(input('Please choose a color: (red) or (black): '))
+
+    for i in range(roulette.getGames()):
+        capital -= betValue
+        rand = np.random.randint(0, 37)
+        color = roulette.getNumbers()[rand].color
+        if(color == myColor):
+            capital += betValue * 2
+            if(betValue > 0):
+                betValue -= 1
+            else:
+                betValue = 1
+        else:
+            betValue += 1
+        graph.append(capital)
+    print('Final capital: ', capital)
+    print("Your total play time would be about: " + str(roulette.getGames() * roulette.getBetTime() // 60) + " min")
     print()
     return graph
