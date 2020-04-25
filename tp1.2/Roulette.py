@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 import numpy as np
@@ -33,6 +32,7 @@ class Roulette(object):
     def configurePlayer(self):
         self.GAMES = int(float(input('How many games do you want to play? ')))
         self.INITCAPITAL = 1000  # this can be asked as well
+        self.BETTIME = 180 # average of 3 minutes for the bet time and spinning
 
     # Getters and Setters
     def getNumbers(self):
@@ -53,3 +53,8 @@ class Roulette(object):
     def setInitCapital(self, initC):
         self.INITCAPITAL = initC
     
+    def getBetTime(self):
+        return self.BETTIME
+
+    def setBetTime(self,betT):
+        self.BETTIME = betT

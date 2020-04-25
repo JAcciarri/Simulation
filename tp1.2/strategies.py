@@ -1,11 +1,13 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 import numpy as np
 
+
+# Only Number
 def betToNumber(roulette):
     capital = roulette.getInitCapital()
     betValue = 1
+    betTime = roulette.getBetTime()
     graph = [capital]
     chosen = int(float(input('Choose your number: ')))
     for i in range(roulette.getGames()):
@@ -14,9 +16,12 @@ def betToNumber(roulette):
         if(rand == chosen):
             capital = capital + betValue * 36
         graph.append(capital)
+    print('Final capital: ', capital)
+    print("Your total play time would be about: " + str(roulette.getGames() * roulette.getBetTime() / 60) + " min")
     print()
     return graph
 
+# Only Color
 def betToColor(roulette):
     capital = roulette.getInitCapital()
     betValue = 1
@@ -31,9 +36,12 @@ def betToColor(roulette):
         if(roulette.getNumbers()[rand].color == myColor):
             capital += (betValue * 2)
         graph.append(capital)
+    print('Final capital: ', capital)
+    print("Your total play time would be about: " + str(roulette.getGames() * roulette.getBetTime() / 60) + " min")
     print()
     return graph
-    
+
+# Gerardo Sofovich's Strategy
 def betAsSofovich(roulette):
     # This will probably be deleted
     capital = roulette.getInitCapital()
@@ -47,6 +55,9 @@ def betAsSofovich(roulette):
         if(rand != notChosen_1 and rand != notChosen_2):
             capital = capital + betValue * 36
         graph.append(capital)
+    print('Final capital: ', capital)
+    print("Your total play time would be about: " + str(roulette.getGames() * roulette.getBetTime() / 60) + " min")
+    print()
     return graph
 
 # Classic and Modified Martingale
@@ -80,5 +91,6 @@ def betMartingale(roulette):
             betValue = initBetValue
         graph.append(capital)
     print('Final capital: ', capital)
+    print("Your total play time would be about: " + str(roulette.getGames() * roulette.getBetTime() / 60) + " min")
     print()
     return graph

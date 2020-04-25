@@ -1,9 +1,8 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""
+'''
 UTN FRRO - Simulation 2020
-TP1.2 - Roulette Economic and Mathematical Analysis
+TP1.2 - Roulette: Economic and Mathematical Analysis
 
 Authors: Joshua Acciarri (44823) & Nicolás Antonelli (44852)
 Professor: Torres, Juan
@@ -13,7 +12,11 @@ Python Libraries/Modules Used:
     - Numpy: Random Numbers and Array Manipulation
     - Pyplot: Matplotlib Module for Graph Plotting
 
-"""
+Classes/Other Files:
+    -RouletteNumber: Object with a value from 0 to 36, and a color
+    -Roulette: Object that contains 37 RouletteNumbers and Strategy methods
+    -Strategies: File with the definition of all strategies we use
+'''
 
 from matplotlib import pyplot as plt
 from Roulette import Roulette
@@ -64,6 +67,7 @@ if __name__ == '__main__':
         
         # Graph
         graph = select(strat)
+        plt.ylim(bottom=0)
         fig = plt.gcf()
         fig.canvas.set_window_title("Strategy Analysis")
         plt.ylabel('Capital')
