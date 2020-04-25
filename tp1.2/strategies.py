@@ -52,7 +52,7 @@ def betAsSofovich(roulette):
 # Classic and Modified Martingale
 def betMartingale(roulette):
     capital = roulette.getInitCapital()
-    betValue = 1
+    betValue = initBetValue = 1
     graph = [capital]
     modified = ""
     while(modified != 'Y' and modified != 'N'):
@@ -66,9 +66,8 @@ def betMartingale(roulette):
         capital -= betValue
         rand = np.random.randint(0, 37)
         color = roulette.getNumbers()[rand].color
-        if(roulette.getNumbers()[rand].color == myColor):
+        if(color == myColor):
             capital += (betValue * 2)
-        graph.append(capital)
 
         # Duplicate previous bet (modified: adds +1 units)
         if(myColor != color):
@@ -78,8 +77,7 @@ def betMartingale(roulette):
                 betValue = betValue * 2
         else:
             # Reinitialize betValue to 1
-            capital += betValue * 2
-            betValue = 1
+            betValue = initBetValue
         graph.append(capital)
     print('Final capital: ', capital)
     print()
