@@ -1,70 +1,113 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
-
+import graphing as g
 
 # Only Number
-def betToNumber(roulette):
+def betToNumber(roulette, typeof):
     capital = roulette.getInitCapital()
     betValue = 1
-    betTime = roulette.getBetTime()
-    graph = [capital]
-    chosen = int(float(input('Choose your number: ')))
-    for i in range(roulette.getGames()):
+    capitalGraph = [capital]
+    frGraph = []
+    fr = 0
+    graphs = []
+    chosen = int(float(input('Choose your number:')))
+    for i in range(1, roulette.getGames()):
+        if (typeof == "limited" and betValue>capital):
+            graphs.append(capitalGraph)
+            graphs.append(frGraph)
+            return graphs
+
         capital -= betValue
         rand = np.random.randint(0, len(roulette.getNumbers()))
         if(rand == chosen):
             capital += betValue * 36
-        graph.append(capital)
+            fr += 1
+        capitalGraph.append(capital)
+        frGraph.append(fr/i)
+
+    graphs.append(capitalGraph)
+    graphs.append(frGraph)
     print('Final capital: ', capital)
     print("Your total play time would be about: " + str(roulette.getGames() * roulette.getBetTime() // 60) + " min")
     print()
-    return graph
+    return graphs
+
 
 # Only Color
-def betToColor(roulette):
+def betToColor(roulette, typeof):
     capital = roulette.getInitCapital()
     betValue = 1
-    graph = [capital]
+    capitalGraph = [capital]
+    frGraph = []
+    fr = 0
+    graphs = []
     myColor = ""
     while(myColor != 'red' and myColor != 'black'):
         myColor = str(input('Please choose a color: (red) or (black): '))
 
-    for i in range(roulette.getGames()):
+    for i in range(1, roulette.getGames()):
+        if (typeof == "limited" and betValue>capital):
+            graphs.append(capitalGraph)
+            graphs.append(frGraph)
+            return graphs
+
         capital -= betValue
         rand = np.random.randint(0, 37)
         if(roulette.getNumbers()[rand].color == myColor):
             capital += betValue * 2
-        graph.append(capital)
+            fr += 1
+        frGraph.append(fr/i)
+        capitalGraph.append(capital)
+    
+    graphs.append(capitalGraph)
+    graphs.append(frGraph)
     print('Final capital: ', capital)
     print("Your total play time would be about: " + str(roulette.getGames() * roulette.getBetTime() // 60) + " min")
     print()
-    return graph
+    return graphs
 
 # Gerardo Sofovich's Strategy
-def betAsSofovich(roulette):
+def betAsSofovich(roulette, typeof):
     # This will probably be deleted
-    capital = roulette.getInitCapital()
+    capital = 100000
     betValue = 100
-    graph = [capital]
+    capitalGraph = [capital]
+    frGraph = []
+    fr = 0
+    graphs = []
     notChosen_1 = int(float(input('Choose your NOT chosen number 1: ')))
     notChosen_2 = int(float(input('Choose your NOT chosen number 2: ')))
-    for i in range(roulette.getGames()):
+    for i in range(1, roulette.getGames()):
+        if (typeof == "limited" and betValue>capital):
+            graphs.append(capitalGraph)
+            graphs.append(frGraph)
+            return graphs
+
         capital -= (betValue * 35)
         rand = np.random.randint(0, len(roulette.getNumbers()))
+        
         if(rand != notChosen_1 and rand != notChosen_2):
             capital += betValue * 36
-        graph.append(capital)
+            fr += 1
+        capitalGraph.append(capital)
+        frGraph.append(fr/i)
+
     print('Final capital: ', capital)
     print("Your total play time would be about: " + str(roulette.getGames() * roulette.getBetTime() // 60) + " min")
     print()
-    return graph
+    graphs.append(capitalGraph)
+    graphs.append(frGraph)
+    return graphs
 
 # Classic and Modified Martingale
-def betMartingale(roulette):
+def betMartingale(roulette, typeof):
     capital = roulette.getInitCapital()
     betValue = initBetValue = 1
-    graph = [capital]
+    capitalGraph = [capital]
+    frGraph = []
+    fr = 0
+    graphs = []
     modified = ""
     while(modified != 'Y' and modified != 'N'):
         modified = str.upper(str(input('There are two types of Martingale. Classic and Modified. The default is Classic. Do you want to change to Modified? (Y/N) ')))
@@ -73,12 +116,18 @@ def betMartingale(roulette):
     while(myColor != 'red' and myColor != 'black'):
         myColor = str(input('Please choose a color: (red) or (black): '))
 
-    for i in range(roulette.getGames()):
+    for i in range(1, roulette.getGames()):
+        if (typeof == "limited" and betValue>capital):
+            graphs.append(capitalGraph)
+            graphs.append(frGraph)
+            return graphs
+            
         capital -= betValue
         rand = np.random.randint(0, 37)
         color = roulette.getNumbers()[rand].color
         if(color == myColor):
             capital += betValue * 2
+            fr += 1
 
         # Duplicate previous bet (modified: adds +1 units)
         if(myColor != color):
@@ -89,14 +138,19 @@ def betMartingale(roulette):
         else:
             # Reinitialize betValue to 1
             betValue = initBetValue
-        graph.append(capital)
+        
+        capitalGraph.append(capital)
+        frGraph.append(fr/i)
+
     print('Final capital: ', capital)
     print("Your total play time would be about: " + str(roulette.getGames() * roulette.getBetTime() // 60) + " min")
     print()
-    return graph
+    graphs.append(capitalGraph)
+    graphs.append(frGraph)
+    return graphs
 
 # D'Alembert Strategy
-def betDalembert(roulette):
+def betDalembert(roulette, typeof):
     capital = roulette.getInitCapital()
     betValue = initBetValue = 1
     graph = [capital]

@@ -21,36 +21,36 @@ Classes/Other Files:
 from matplotlib import pyplot as plt
 from Roulette import Roulette
 from strategies import *
-
+from graphing import letsGraph
 
 def select(opt):
-    if (opt == 0):
+    roulette.configurePlayer()
+    graphs = []
+    if (opt == 1):
+       graphsLim = betToNumber(roulette, "limited")
+       graphsUnlim = betToNumber(roulette, "infinite")
+       letsGraph(graphsLim, graphsUnlim)
+            
+    elif (opt == 2):
+       graphsLim = betToColor(roulette, "limited")
+       graphsUnlim = betToColor(roulette, "infinite")
+       letsGraph(graphsLim, graphsUnlim)
+
+    elif (opt == 3):
+       graphsLim = betAsSofovich(roulette, "limited")
+       graphsUnlim = betAsSofovich(roulette, "infinite")
+       letsGraph(graphsLim, graphsUnlim)
+    elif (opt == 4):
+       graphsLim = betMartingale(roulette, "limited")
+       graphsUnlim = betMartingale(roulette, "infinite")
+       letsGraph(graphsLim, graphsUnlim)
+    elif (opt == 5):
+       graphsLim = betDalembert(roulette, "limited")
+       graphsUnlim = betDalembert(roulette, "infinite")
+       letsGraph(graphsLim, graphsUnlim)
+    else:
         print('Good Bye!\n')
         exit()
-    else:
-        roulette.configurePlayer()
-        if (opt == 1):
-            graph = betToNumber(roulette)
-            plt.title('Bet to a single number')
-            
-        elif (opt == 2):
-            graph = betToColor(roulette)
-            plt.title('Bet to a color')
-        elif (opt == 3):
-            graph = betAsSofovich(roulette)
-            plt.title('Bet AS Sofovich')
-        elif (opt == 4):
-            graph = betMartingale(roulette)
-            plt.title('Bet Martingale')
-        elif (opt == 5):
-            graph = betDalembert(roulette)
-            plt.title('Bet D\'Alembert')
-        else:
-            print('Good Bye!\n')
-            exit()
-        plt.plot(graph)
-        return graph
-
 
 # Main
 if __name__ == '__main__':
@@ -63,24 +63,11 @@ if __name__ == '__main__':
         while(strat not in [0, 1, 2, 3, 4, 5]):
             strat = int(float(input('Please choose a strategy: (1 or 2 or 3 or 4 or 5)\n1: Bet to a single number\n2: Bet to a color\n3: Bet AS Sofovich\n4: Bet Martingale (Classic and Modified)\n5: Bet D\'Alambert\n\n0: Exit Game\n')))
         print()
-
         # Exit Game
         if (strat == 0):
             exit()
         
-        # Graph
-        graph = select(strat)
-        if min(graph) >= 0:
-            plt.ylim(bottom=0, top=max(graph)*1.1)
-        else:
-            plt.ylim(bottom=min(graph)*1.1, top=max(graph)*1.1)
-        fig = plt.gcf()
-        fig.canvas.set_window_title("Strategy Analysis")
-        plt.ylabel('Capital')
-        plt.xlabel('N (bets)')
-        plt.axhline(roulette.getInitCapital(), color='red', linestyle='--', label="Init Capital")
-        plt.legend()
-        plt.show()
-
+        select(strat)
         # Default Strat to -1 for re-start game simulator correctly
         strat = -1
+
