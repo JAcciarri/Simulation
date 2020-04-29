@@ -16,41 +16,61 @@ Classes/Other Files:
     -RouletteNumber: Object with a value from 0 to 36, and a color
     -Roulette: Object (European Roulette) that contains 37 RouletteNumbers and Strategy methods
     -Strategies: File with the definition of all strategies we use
+    -Graphing: File with common Plotting functions
 '''
 
-from matplotlib import pyplot as plt
 from Roulette import Roulette
-from strategies import *
 from graphing import letsGraph
+from strategies import *
+import matplotlib.pyplot as plt
 
 def select(opt):
+    
+    # Roulette Settings
     roulette.configurePlayer()
-    graphs = []
-    if (opt == 1):
-       graphsLim = betToNumber(roulette, "limited")
-       graphsUnlim = betToNumber(roulette, "infinite")
-       letsGraph(graphsLim, graphsUnlim)
-            
-    elif (opt == 2):
-       graphsLim = betToColor(roulette, "limited")
-       graphsUnlim = betToColor(roulette, "infinite")
-       letsGraph(graphsLim, graphsUnlim)
 
-    elif (opt == 3):
-       graphsLim = betAsSofovich(roulette, "limited")
-       graphsUnlim = betAsSofovich(roulette, "infinite")
-       letsGraph(graphsLim, graphsUnlim)
-    elif (opt == 4):
-       graphsLim = betMartingale(roulette, "limited")
-       graphsUnlim = betMartingale(roulette, "infinite")
-       letsGraph(graphsLim, graphsUnlim)
-    elif (opt == 5):
-       graphsLim = betDalembert(roulette, "limited")
-       graphsUnlim = betDalembert(roulette, "infinite")
-       letsGraph(graphsLim, graphsUnlim)
-    else:
-        print('Good Bye!\n')
-        exit()
+    # Arrays for multiple Game Results (Recommended: 5 to 10)
+    results = 6
+    resultsLimited = []
+    resultsUnlimited = []
+    
+    # Type of Strategy
+    for i in range(results):
+        if (opt == 1):
+            graphsLim, graphsUnlim = betToNumber(roulette) 
+        elif (opt == 2):
+            graphsLim, graphsUnlim = betToColor(roulette)
+        elif (opt == 3):
+            graphsLim, graphsUnlim = betAsSofovich(roulette)
+        elif (opt == 4):
+            graphsLim, graphsUnlim = betMartingale(roulette)
+        elif (opt == 5):
+            graphsLim, graphsUnlim = betDalembert(roulette)
+        else:
+            print('Good Bye!\n')
+            exit()
+
+        # Adding current results to the array of results
+        resultsLimited.append(graphsLim)
+        resultsUnlimited.append(graphsUnlim)
+    
+    # Call graphing's function for the first game results
+    title = "Roulette Strategy Analysis, one result game"
+    letsGraph(resultsLimited[0], resultsUnlimited[1], roulette.getInitCapital(), title)
+
+    # Averages Calculation
+    graphsLim["capital"]   = (resultsLimited[0]["capital"]   + resultsLimited[1]["capital"]   + resultsLimited[2]["capital"]   + resultsLimited[3]["capital"]   + resultsLimited[4]["capital"]   + resultsLimited[5]["capital"])   / results
+    graphsUnlim["capital"] = (resultsUnlimited[0]["capital"] + resultsUnlimited[1]["capital"] + resultsUnlimited[2]["capital"] + resultsUnlimited[3]["capital"] + resultsUnlimited[4]["capital"] + resultsUnlimited[5]["capital"]) / results
+    graphsLim["frec"]      = (resultsLimited[0]["frec"]      + resultsLimited[1]["frec"]      + resultsLimited[2]["frec"]      + resultsLimited[3]["frec"]      + resultsLimited[4]["frec"]      + resultsLimited[5]["frec"])      / results
+    graphsUnlim["frec"]    = (resultsUnlimited[0]["frec"]    + resultsUnlimited[1]["frec"]    + resultsUnlimited[2]["frec"]    + resultsUnlimited[3]["frec"]    + resultsUnlimited[4]["frec"]    + resultsUnlimited[5]["frec"])    / results
+
+    # Call graphing's function for every game result
+    title = "Roulette Strategy Analysis, all results games"
+    letsGraph(graphsLim, graphsUnlim, roulette.getInitCapital(), title)
+
+    # Visualize all the graphics
+    plt.show()
+
 
 # Main
 if __name__ == '__main__':
@@ -70,4 +90,3 @@ if __name__ == '__main__':
         select(strat)
         # Default Strat to -1 for re-start game simulator correctly
         strat = -1
-

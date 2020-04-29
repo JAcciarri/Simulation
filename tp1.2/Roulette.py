@@ -2,7 +2,6 @@
 
 import numpy as np
 import random
-import strategies as strats
 from RouletteNumber import RouletteNumber
 
 
@@ -31,7 +30,8 @@ class Roulette(object):
     # Player parameters
     def configurePlayer(self):
         self.GAMES = int(float(input('How many games do you want to play? ')))
-        self.INITCAPITAL = 1000  # this can be asked as well
+        self.INITCAPITAL = int(float(input('Define your initial capital: ')))
+        self.BETVALUE = int(float(input('Bet Value?: ')))
         self.BETTIME = 180 # average of 3 minutes for the bet time and spinning
 
     # Getters and Setters
@@ -53,6 +53,12 @@ class Roulette(object):
     def setInitCapital(self, initC):
         self.INITCAPITAL = initC
     
+    def getBetValue(self):
+        return self.BETVALUE
+
+    def setBetValue(self,betV):
+        self.BETVALUE = betV
+
     def getBetTime(self):
         return self.BETTIME
 
