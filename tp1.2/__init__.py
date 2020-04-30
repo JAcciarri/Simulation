@@ -46,6 +46,10 @@ def select(opt):
             graphsLim, graphsUnlim = betMartingale(roulette)
         elif (opt == 5):
             graphsLim, graphsUnlim = betDalembert(roulette)
+        elif (opt == 6):
+            graphsLim, graphsUnlim = betFibonacci(roulette)
+        elif (opt == 7):
+            graphsLim, graphsUnlim = betASSantE(roulette)
         else:
             print('Good Bye!\n')
             exit()
@@ -77,11 +81,15 @@ if __name__ == '__main__':
     roulette = Roulette()
     strat = -1
     while (strat != 0):
+        # Menu
         print('ROULETTE SIMULATOR')
         print('Welcome. Do you want to play?')
         print()
-        while(strat not in [0, 1, 2, 3, 4, 5]):
-            strat = int(float(input('Please choose a strategy: (1 or 2 or 3 or 4 or 5)\n1: Bet to a single number\n2: Bet to a color\n3: Bet AS Sofovich\n4: Bet Martingale (Classic and Modified)\n5: Bet D\'Alambert\n\n0: Exit Game\n')))
+        inputMsg = 'Please choose a strategy: (number from 1 to 6)\n'
+        inputMsg += '1: Bet to a single number\n2: Bet to a color\n3: Bet AS Sofovich\n4: Bet Martingale (Classic and Modified)\n'
+        inputMsg += '5: Bet D\'Alambert\n6: Bet Fibonacci (Bet fixed to 1)\n7: Bet AS SantE (Original Strategy)\n\n0: Exit Game\n'
+        while(strat not in [0, 1, 2, 3, 4, 5, 6, 7]):
+            strat = int(float(input(inputMsg)))
         print()
         # Exit Game
         if (strat == 0):
