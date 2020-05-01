@@ -29,7 +29,7 @@ class Roulette(object):
 
     # Player parameters
     def configurePlayer(self):
-        self.GAMES = int(float(input('How many games do you want to play? ')))
+        self.GAMES = int(float(input('How many games do you want to play?: ')))
         self.INITCAPITAL = int(float(input('Define your initial capital: ')))
         self.BETVALUE = int(float(input('Bet Value?: ')))
         self.BETTIME = 180 # average of 3 minutes for the bet time and spinning

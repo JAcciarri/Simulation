@@ -3,21 +3,21 @@
 from matplotlib import pyplot as plt
 import numpy as np
 
-def letsGraph(graphsLim, graphsUnlim, initCapital, title):
+def letsGraph(graphsLim, graphsUnlim, roulette, info, save):
     
-    # First Graph Settings
+    # General Settings
     fig, axs = plt.subplots(2,2)
-    fig.canvas.set_window_title(title)
+    fig.canvas.set_window_title(info["title"])
     
     # Subplot Settings
     axs[0, 0].plot(graphsUnlim["capital"], label="Capital")
     axs[0, 0].set_title('UNLIMITED CAPITAL')
-    axs[0, 0].axhline(initCapital, color='red', linestyle='--', label="Init Capital")
+    axs[0, 0].axhline(roulette.getInitCapital(), color='red', linestyle='--', label="Init Capital")
     plt.setp(axs[0, 0], ylabel="Capital")
     
     axs[0, 1].plot(graphsLim["capital"], label="Capital")
     axs[0, 1].set_title('LIMITED CAPITAL')
-    axs[0, 1].axhline(initCapital, color='red', linestyle='--', label="Init Capital")
+    axs[0, 1].axhline(roulette.getInitCapital(), color='red', linestyle='--', label="Init Capital")
     plt.setp(axs[0, 1], ylabel="Capital")
     
     axs[1, 0].bar(np.arange(len(graphsUnlim["frec"])), graphsUnlim["frec"], width = 0.5, label="RF")
@@ -42,3 +42,25 @@ def letsGraph(graphsLim, graphsUnlim, initCapital, title):
         ax.legend()
         plt.setp(ax, xlabel="Número de Tiradas")
     fig.tight_layout()
+
+    # Saving the Graph
+    if (save["mode"]):
+
+        # Modified Martingale detail
+        if (info["modified"] == "Y"):
+            modality = "modified_"
+        elif (info["modified"] == "N"):
+            modality = "classic_"
+        else:
+            modality = ""
+        
+        # Name of the file to save
+        name = "graph_" + info["strategy"] + "_" + modality + str(roulette.getGames())  + "iter_" + str(roulette.getInitCapital()) + "cap_" + str(roulette.getBetValue()) + "bet_" + info["type"] + ".png"
+        
+        # Route and Result
+        try:
+            plt.savefig(save["route"] + name)
+            print(name + " guardado correctamente")
+        except:
+            print(name + " NO fue guardado porque hubo un problema")
+        print()
