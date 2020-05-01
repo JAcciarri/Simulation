@@ -20,12 +20,12 @@ Classes/Other Files:
 '''
 
 from Roulette import Roulette
-from Strategies import Strategies
+from strategies import Strategies
 from graphing import letsGraph
 import matplotlib.pyplot as plt
 
 # Global Configs
-save = {"mode": True, "route": "tp1.2/graphs/" } # If mode is False, the graph won't be sabed
+save = {"mode": True, "route": "tp1.2/graphs/" } # If mode is False, the graph won't be saved
 
 
 # Main
