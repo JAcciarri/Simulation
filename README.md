@@ -14,4 +14,4 @@ Study and history of pseudorandom number generators. Randomness tests applied in
 
 [TP1.1]: ./tp1.1
 [TP1.2]: ./tp1.2
-[TP2.1]: ./tp2.1
+[TP2.1]: ./TP2.1
