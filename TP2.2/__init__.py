@@ -16,11 +16,13 @@ Python Libraries/Modules Used:
 
 Other Files:
     - distributions: File with our analyzed distributions' definitions (and tests?)
+    - tests:         File with our randomization tests for different distributions
     - plots:         File with our plotting and save functions
 '''
 
 import numpy as np
 from distributions import uniform, exponential, gamma
+from tests import mean_test, std_deviation_test
 from plots import *
 
 
@@ -52,20 +54,23 @@ for i in range(total_numbers):
 
 # Show
 print()
-print('-----UNIFORM VALUES------')
+print('-----UNIFORM DISTRIBUTION------')
+# print(total_numbers + pseudorandom numbers generated)
 # print(uniform_values)
-print('Mean value is', np.mean(uniform_values))
-print('and it is expected to be like', (a+b)/2)
+mean_test(uniform_values, (a+b)/2)
+std_deviation_test(uniform_values, ((b-a)**2/12)**(1/2))
 print()
 
-print('-----EXPONENTIAL VALUES------')
+print('-----EXPONENTIAL DISTRIBUTION------')
+# print(total_numbers + pseudorandom numbers generated)
 # print(exp_values)
-print('Mean value is', np.mean(exp_values))
-print('and it is expected to be like', 1/alpha_exp)
+mean_test(exp_values, 1/alpha_exp)
+std_deviation_test(exp_values, (1/(alpha_exp**2))**(1/2))
 print()
 
-print('-----GAMMA VALUES------')
+print('-----GAMMA DISTRIBUTION------')
+# print(total_numbers + pseudorandom numbers generated)
 # print(gamma_values)
-print('Mean value is', np.mean(gamma_values))
-print('and it is expected to be like', k/alpha_gamma)
+mean_test(gamma_values, k/alpha_gamma)
+std_deviation_test(gamma_values, (k/alpha_gamma**2)**(1/2))
 print()

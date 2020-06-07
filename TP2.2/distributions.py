@@ -3,6 +3,7 @@
 from numpy.random import random
 from numpy import log as ln
 
+
 def uniform(a, b):
     r = random()
     x = a + (b - a) * r
