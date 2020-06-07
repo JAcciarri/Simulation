@@ -22,7 +22,7 @@ Other Files:
 
 import numpy as np
 from distributions import uniform, exponential, gamma, normal, pascal
-from tests import mean_test, std_deviation_test
+from tests import mean_test, variance_test
 from plots import *
 
 
@@ -72,33 +72,33 @@ print('-----UNIFORM DISTRIBUTION------')
 # print(total_numbers, "pseudorandom numbers generated")
 # print(uniform_values)
 mean_test(uniform_values, (a+b)/2)
-std_deviation_test(uniform_values, ((b-a)**2/12)**(1/2))
+variance_test(uniform_values, ((b-a)**2)/12)
 print()
 
 print('-----EXPONENTIAL DISTRIBUTION------')
 # print(total_numbers, "pseudorandom numbers generated")
 # print(exp_values)
 mean_test(exp_values, 1/alpha_exp)
-std_deviation_test(exp_values, (1/(alpha_exp**2))**(1/2))
+variance_test(exp_values, 1/(alpha_exp**2))
 print()
 
 print('-----GAMMA DISTRIBUTION------')
 # print(total_numbers, "pseudorandom numbers generated")
 # print(gamma_values)
 mean_test(gamma_values, k_gamma/alpha_gamma)
-std_deviation_test(gamma_values, (k_gamma/alpha_gamma**2)**(1/2))
+variance_test(gamma_values, k_gamma/(alpha_gamma**2))
 print()
 
 print('-----NORMAL DISTRIBUTION------')
 # print(total_numbers, "pseudorandom numbers generated")
 # print(normal_values)
 mean_test(normal_values, m)
-std_deviation_test(normal_values, d)
+variance_test(normal_values, d**2)
 print()
 
 print('-----PASCAL DISTRIBUTION------')
 # print(total_numbers, "pseudorandom numbers generated")
 # print(pascal_values)
 mean_test(pascal_values, (k_pascal*(1-p_pascal))/p_pascal)
-std_deviation_test(pascal_values, ((k_pascal*(1-p_pascal))/p_pascal**2)**(1/2))
+variance_test(pascal_values, ((k_pascal*(1-p_pascal))/p_pascal**2)**(1/2))
 print()

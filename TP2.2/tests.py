@@ -21,13 +21,13 @@ def mean_test(numbers_list, real_parameters):
         print("Mean Test REJECTED within the acceptance margin of " + str(acceptance_margin*100) + " %")
     print()
 
-# Simulated vs Analytic Calculation of the Standard Deviation
-def std_deviation_test(numbers_list, real_parameters):
-    simulated_deviation_result = np.std(numbers_list)
-    real_deviation_result = real_parameters
-    print("Deviation value is", simulated_deviation_result)
-    print("And it is expected to be", real_deviation_result)
-    relation = simulated_deviation_result / real_deviation_result
+# Simulated vs Analytic Calculation of the Variance
+def variance_test(numbers_list, real_parameters):
+    simulated_variance_result = np.var(numbers_list)
+    real_variance_result = real_parameters
+    print("Deviation value is", simulated_variance_result)
+    print("And it is expected to be", real_variance_result)
+    relation = simulated_variance_result / real_variance_result
     if (relation >= acceptance_interval[0] and relation <= acceptance_interval[1]):
         print("Standard Deviation Test PASSED within the acceptance margin of " + str(acceptance_margin*100) + " %")
     else:
