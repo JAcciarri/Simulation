@@ -21,68 +21,84 @@ Other Files:
 '''
 
 import numpy as np
-from distributions import uniform, exponential, gamma, normal
+from distributions import uniform, exponential, gamma, normal, pascal
 from tests import mean_test, std_deviation_test
 from plots import *
 
 
 # General parameters
 total_numbers = int(float(input("How many pseudorandoms numbers do you want to analyze?: ")))  # example: 500
-# save = {"mode": True, "route": "graphs/", "total": total_numbers } # If mode is False, the graphs won't be saved
+save = {"mode": True, "route": "graphs/", "total": total_numbers} # If mode is False, the graphs won't be saved
 
-# Uniform parameters
+# Uniform parameters, U ~ (a: min, b: max)
 a = 5
 b = 19
  
-# Exponential parameters
+# Exponential parameters, E ~ (alpha_exp: ?)
 alpha_exp = 3
 
-# Gamma parameters
-k = 10
+# Gamma parameters, G ~ (k: ?, alpha_gamma: ?)
+k_gamma = 10
 alpha_gamma = 3
 
-# Normal parameters
-m = 10
+# Normal parameters, N ~ (m: mean, d: deviation)
+m = 10 
 d = 2
 
+# Pascal parameters, P ~ (r: success cases, p: probability of success)
+k_pascal = 4
+p_pascal = 0.8
+
+
 # Main
+# Lists Initialization
 uniform_values = np.zeros(total_numbers)
 exp_values     = np.zeros(total_numbers)
 gamma_values   = np.zeros(total_numbers)
 normal_values  = np.zeros(total_numbers)
+pascal_values  = np.zeros(total_numbers)
 
+# Distributions Generation
 for i in range(total_numbers):
     uniform_values[i] = uniform(a, b)
     exp_values[i]     = exponential(1/alpha_exp)
-    gamma_values[i]   = gamma(k, alpha_gamma)
+    gamma_values[i]   = gamma(k_gamma, alpha_gamma)
     normal_values[i]  = normal(m, d)
+    pascal_values[i]  = pascal(k_pascal, p_pascal)
 
-# Show
+# Test & Show
 print()
 print('-----UNIFORM DISTRIBUTION------')
-# print(total_numbers + pseudorandom numbers generated)
+# print(total_numbers, "pseudorandom numbers generated")
 # print(uniform_values)
 mean_test(uniform_values, (a+b)/2)
 std_deviation_test(uniform_values, ((b-a)**2/12)**(1/2))
 print()
 
 print('-----EXPONENTIAL DISTRIBUTION------')
-# print(total_numbers + pseudorandom numbers generated)
+# print(total_numbers, "pseudorandom numbers generated")
 # print(exp_values)
 mean_test(exp_values, 1/alpha_exp)
 std_deviation_test(exp_values, (1/(alpha_exp**2))**(1/2))
 print()
 
 print('-----GAMMA DISTRIBUTION------')
-# print(total_numbers + pseudorandom numbers generated)
+# print(total_numbers, "pseudorandom numbers generated")
 # print(gamma_values)
-mean_test(gamma_values, k/alpha_gamma)
-std_deviation_test(gamma_values, (k/alpha_gamma**2)**(1/2))
+mean_test(gamma_values, k_gamma/alpha_gamma)
+std_deviation_test(gamma_values, (k_gamma/alpha_gamma**2)**(1/2))
 print()
 
 print('-----NORMAL DISTRIBUTION------')
-# print(total_numbers + pseudorandom numbers generated)
+# print(total_numbers, "pseudorandom numbers generated")
 # print(normal_values)
 mean_test(normal_values, m)
 std_deviation_test(normal_values, d)
+print()
+
+print('-----PASCAL DISTRIBUTION------')
+# print(total_numbers, "pseudorandom numbers generated")
+# print(pascal_values)
+mean_test(pascal_values, (k_pascal*(1-p_pascal))/p_pascal)
+std_deviation_test(pascal_values, ((k_pascal*(1-p_pascal))/p_pascal**2)**(1/2))
 print()
