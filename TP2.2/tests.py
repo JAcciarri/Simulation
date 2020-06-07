@@ -3,11 +3,12 @@
 import numpy as np
 
 
+# A list of pseudorandom number passes the mean and deviation tests within an acceptance intervale
 acceptance_margin = 0.2
 acceptance_interval = [1 - acceptance_margin, 1 + acceptance_margin]
-# A list of pseudorandom number passes the mean and deviation tests within an acceptance intervale
 
 
+# Simulated vs Analytic Calculation of the Mean
 def mean_test(numbers_list, real_parameters):
     simulated_mean_result = np.mean(numbers_list)
     real_mean_result = real_parameters
@@ -19,7 +20,8 @@ def mean_test(numbers_list, real_parameters):
     else:
         print("Mean Test REJECTED within the acceptance margin of " + str(acceptance_margin*100) + " %")
     print()
-    
+
+# Simulated vs Analytic Calculation of the Standard Deviation
 def std_deviation_test(numbers_list, real_parameters):
     simulated_deviation_result = np.std(numbers_list)
     real_deviation_result = real_parameters
@@ -32,5 +34,12 @@ def std_deviation_test(numbers_list, real_parameters):
         print("Standard Deviation Test REJECTED within the acceptance margin of " + str(acceptance_margin*100) + " %")
     print()
 
+# χ2 Test
 def chi_squared_test():
     pass
+    # To-Do (?)
+
+# Simulated vs Analytic Plot of the cumulative distribution functions
+def cdf_comparative_test():
+    pass
+    # To-Do...

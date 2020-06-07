@@ -21,7 +21,7 @@ Other Files:
 '''
 
 import numpy as np
-from distributions import uniform, exponential, gamma
+from distributions import uniform, exponential, gamma, normal
 from tests import mean_test, std_deviation_test
 from plots import *
 
@@ -41,16 +41,21 @@ alpha_exp = 3
 k = 10
 alpha_gamma = 3
 
+# Normal parameters
+m = 10
+d = 2
 
 # Main
 uniform_values = np.zeros(total_numbers)
-exp_values = np.zeros(total_numbers)
-gamma_values = np.zeros(total_numbers)
+exp_values     = np.zeros(total_numbers)
+gamma_values   = np.zeros(total_numbers)
+normal_values  = np.zeros(total_numbers)
 
 for i in range(total_numbers):
     uniform_values[i] = uniform(a, b)
     exp_values[i]     = exponential(1/alpha_exp)
     gamma_values[i]   = gamma(k, alpha_gamma)
+    normal_values[i]  = normal(m, d)
 
 # Show
 print()
@@ -73,4 +78,11 @@ print('-----GAMMA DISTRIBUTION------')
 # print(gamma_values)
 mean_test(gamma_values, k/alpha_gamma)
 std_deviation_test(gamma_values, (k/alpha_gamma**2)**(1/2))
+print()
+
+print('-----NORMAL DISTRIBUTION------')
+# print(total_numbers + pseudorandom numbers generated)
+# print(normal_values)
+mean_test(normal_values, m)
+std_deviation_test(normal_values, d)
 print()

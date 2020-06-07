@@ -21,3 +21,11 @@ def gamma(k, alpha):
         tr = tr * r
     x = -ln(tr) / alpha
     return x
+
+def normal(m, d):
+    sum = 0
+    for _ in range(0, 12):
+        r = random()
+        sum += r
+    x = d * (sum - 6) + m
+    return x
