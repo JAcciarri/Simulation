@@ -4,11 +4,11 @@ import numpy as np
 
 
 # A list of pseudorandom number passes the mean and deviation tests within an acceptance intervale
-acceptance_margin = 0.2
+acceptance_margin = 0.15
 acceptance_interval = [1 - acceptance_margin, 1 + acceptance_margin]
 
-# Simulated vs Analytic Statistic Parameters Calculus
-def statistics_test(numbers_list, real_parameters, statistic_parameter):
+# Simulated vs Analytic Statistic Parameters Calculation - Mean Test and Variance Test
+def statistics_parameters_test(numbers_list, real_parameters, statistic_parameter):
     if (statistic_parameter == "Mean"): simulated_result = np.mean(numbers_list)
     if (statistic_parameter == "Variance"): simulated_result = np.var(numbers_list)
     print(statistic_parameter + " value is", simulated_result)

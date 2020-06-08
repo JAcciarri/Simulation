@@ -1,13 +1,22 @@
 # -*- coding: utf-8 -*-
 
 from numpy.random import random
-from numpy import log as ln
+from numpy import floor, log as ln
 
 
 # Uniform Distribution Generator
 def uniform(a, b):
     r = random()
     x = a + (b - a) * r
+    return x
+
+# Normal Distribution Generator
+def normal(m, d):
+    sum = 0
+    for _ in range(0, 12):
+        r = random()
+        sum += r
+    x = d * (sum - 6) + m
     return x
 
 # Exponential Distribution Generator
@@ -23,15 +32,6 @@ def gamma(k, alpha):
         r = random()
         tr = tr * r
     x = -ln(tr) / alpha
-    return x
-
-# Normal Distribution Generator
-def normal(m, d):
-    sum = 0
-    for _ in range(0, 12):
-        r = random()
-        sum += r
-    x = d * (sum - 6) + m
     return x
 
 # Binomial Distribution Generator
@@ -50,5 +50,5 @@ def pascal(k, p):
     for _ in range(k):
         r = random()
         tr = tr * r
-    x = ln(tr)/qr
+    x = floor(ln(tr)/qr)
     return x
