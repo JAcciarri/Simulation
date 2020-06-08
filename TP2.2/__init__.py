@@ -21,7 +21,7 @@ Other Files:
 '''
 
 import numpy as np
-from distributions import uniform, exponential, gamma, normal, pascal
+from distributions import uniform, exponential, gamma, normal, pascal, binomial
 from tests import statistics_test
 from plots import *
 
@@ -44,7 +44,11 @@ alpha_gamma = 3
 m = 10 
 d = 2
 
-# Pascal parameters, P ~ (r: success cases, p: probability of success)
+# Binomial parameters, B ~ (n: amount of independent experiments, p: success probability)
+n = 100
+p = 0.5
+
+# Pascal parameters, P ~ (r: success cases, p: success probability)
 k_pascal = 4
 p_pascal = 0.8
 
@@ -55,6 +59,7 @@ uniform_values = np.zeros(total_numbers)
 exp_values     = np.zeros(total_numbers)
 gamma_values   = np.zeros(total_numbers)
 normal_values  = np.zeros(total_numbers)
+binomial_values  = np.zeros(total_numbers)
 pascal_values  = np.zeros(total_numbers)
 
 # Distributions Generation
@@ -63,6 +68,7 @@ for i in range(total_numbers):
     exp_values[i]     = exponential(1/alpha_exp)
     gamma_values[i]   = gamma(k_gamma, alpha_gamma)
     normal_values[i]  = normal(m, d)
+    binomial_values[i]  = binomial(n, p)
     pascal_values[i]  = pascal(k_pascal, p_pascal)
 
 # Test & Show
@@ -93,6 +99,13 @@ print('-----NORMAL DISTRIBUTION------')
 # print(normal_values)
 statistics_test(normal_values, m, 'Mean')
 statistics_test(normal_values, d**2, 'Variance')
+print()
+
+print('-----NORMAL DISTRIBUTION------')
+print(total_numbers, "pseudorandom numbers generated")
+print(binomial_values)
+statistics_test(binomial_values, n*p, 'Mean')
+statistics_test(binomial_values, (n*p*(1-p)), 'Variance')
 print()
 
 print('-----PASCAL DISTRIBUTION------')

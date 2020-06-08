@@ -34,6 +34,15 @@ def normal(m, d):
     x = d * (sum - 6) + m
     return x
 
+# Binomial Distribution Generator
+def binomial(n, p):
+    x = 0
+    for _ in range(1, n):
+        r = random()
+        if (r - p <= 0):
+            x += 1
+    return x
+
 # Pascal (Negative Binomial) Distribution Generator
 def pascal(k, p):
     tr = 1
