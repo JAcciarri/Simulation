@@ -22,13 +22,12 @@ Other Files:
 
 import numpy as np
 from distributions import uniform, exponential, gamma, normal, pascal
-from tests import mean_test, variance_test
+from tests import statistics_test
 from plots import *
 
-
 # General parameters
-total_numbers = int(float(input("How many pseudorandoms numbers do you want to analyze?: ")))  # example: 500
-save = {"mode": True, "route": "graphs/", "total": total_numbers} # If mode is False, the graphs won't be saved
+total_numbers = int(float(input("How many pseudorandom numbers would you want to analyze?: ")))  # example: 500
+save = {"mode": False, "route": "graphs/", "total": total_numbers} # If mode is False, the graphs won't be saved
 
 # Uniform parameters, U ~ (a: min, b: max)
 a = 5
@@ -71,34 +70,34 @@ print()
 print('-----UNIFORM DISTRIBUTION------')
 # print(total_numbers, "pseudorandom numbers generated")
 # print(uniform_values)
-mean_test(uniform_values, (a+b)/2)
-variance_test(uniform_values, ((b-a)**2)/12)
+statistics_test(uniform_values, (a+b)/2, 'Mean')
+statistics_test(uniform_values, ((b-a)**2)/12, 'Variance')
 print()
 
 print('-----EXPONENTIAL DISTRIBUTION------')
 # print(total_numbers, "pseudorandom numbers generated")
 # print(exp_values)
-mean_test(exp_values, 1/alpha_exp)
-variance_test(exp_values, 1/(alpha_exp**2))
+statistics_test(exp_values, 1/alpha_exp, 'Mean')
+statistics_test(exp_values, 1/(alpha_exp**2), 'Variance')
 print()
 
 print('-----GAMMA DISTRIBUTION------')
 # print(total_numbers, "pseudorandom numbers generated")
 # print(gamma_values)
-mean_test(gamma_values, k_gamma/alpha_gamma)
-variance_test(gamma_values, k_gamma/(alpha_gamma**2))
+statistics_test(gamma_values, k_gamma/alpha_gamma, 'Mean')
+statistics_test(gamma_values, k_gamma/(alpha_gamma**2), 'Variance')
 print()
 
 print('-----NORMAL DISTRIBUTION------')
 # print(total_numbers, "pseudorandom numbers generated")
 # print(normal_values)
-mean_test(normal_values, m)
-variance_test(normal_values, d**2)
+statistics_test(normal_values, m, 'Mean')
+statistics_test(normal_values, d**2, 'Variance')
 print()
 
 print('-----PASCAL DISTRIBUTION------')
 # print(total_numbers, "pseudorandom numbers generated")
 # print(pascal_values)
-mean_test(pascal_values, (k_pascal*(1-p_pascal))/p_pascal)
-variance_test(pascal_values, ((k_pascal*(1-p_pascal))/p_pascal**2)**(1/2))
+statistics_test(pascal_values, (k_pascal*(1-p_pascal))/p_pascal, 'Mean')
+statistics_test(pascal_values, ((k_pascal*(1-p_pascal))/p_pascal**2)**(1/2), 'Variance')
 print()

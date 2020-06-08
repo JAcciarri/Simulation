@@ -7,32 +7,19 @@ import numpy as np
 acceptance_margin = 0.2
 acceptance_interval = [1 - acceptance_margin, 1 + acceptance_margin]
 
-
-# Simulated vs Analytic Calculation of the Mean
-def mean_test(numbers_list, real_parameters):
-    simulated_mean_result = np.mean(numbers_list)
-    real_mean_result = real_parameters
-    print("Mean value is", simulated_mean_result)
-    print("And it is expected to be", real_mean_result)
-    relation = simulated_mean_result / real_mean_result
-    if (relation >= acceptance_interval[0] and relation <= acceptance_interval[1]):
-        print("Mean Test PASSED within the acceptance margin of " + str(acceptance_margin*100) + " %")
+# Simulated vs Analytic Statistic Parameters Calculus
+def statistics_test(numbers_list, real_parameters, statistic_parameter):
+    if (statistic_parameter == "Mean"): simulated_result = np.mean(numbers_list)
+    if (statistic_parameter == "Variance"): simulated_result = np.var(numbers_list)
+    print(statistic_parameter + " value is", simulated_result)
+    print("And it is expected to be", real_parameters)
+    relation = simulated_result / real_parameters
+    if (acceptance_interval[0] <= relation <= acceptance_interval[1]):
+        print(statistic_parameter + " Test PASSED within the acceptance margin of " + str(acceptance_margin*100) + " %")
     else:
-        print("Mean Test REJECTED within the acceptance margin of " + str(acceptance_margin*100) + " %")
+        print(statistic_parameter + " Test REJECTED within the acceptance margin of " + str(acceptance_margin*100) + " %")
     print()
 
-# Simulated vs Analytic Calculation of the Variance
-def variance_test(numbers_list, real_parameters):
-    simulated_variance_result = np.var(numbers_list)
-    real_variance_result = real_parameters
-    print("Deviation value is", simulated_variance_result)
-    print("And it is expected to be", real_variance_result)
-    relation = simulated_variance_result / real_variance_result
-    if (relation >= acceptance_interval[0] and relation <= acceptance_interval[1]):
-        print("Standard Deviation Test PASSED within the acceptance margin of " + str(acceptance_margin*100) + " %")
-    else:
-        print("Standard Deviation Test REJECTED within the acceptance margin of " + str(acceptance_margin*100) + " %")
-    print()
 
 # χ2 Test
 def chi_squared_test():
