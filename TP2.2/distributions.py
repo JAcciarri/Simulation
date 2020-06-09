@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from numpy.random import random
-from numpy import floor, log as ln
+from numpy import floor, log as ln, exp
 
 
 # Uniform Distribution Generator
@@ -13,7 +13,7 @@ def uniform(a, b):
 # Normal Distribution Generator
 def normal(m, d):
     sum = 0
-    for _ in range(0, 12):
+    for _ in range(12):
         r = random()
         sum += r
     x = d * (sum - 6) + m
@@ -51,4 +51,15 @@ def pascal(k, p):
         r = random()
         tr = tr * r
     x = floor(ln(tr)/qr)
+    return x
+
+# Poission Distribution Generator
+def poisson(L):
+    x = 0
+    b = exp(-L)
+    tr = 1
+    while(tr-b >= 0):
+        r = random()
+        tr = tr * r
+        x += 1
     return x

@@ -21,7 +21,7 @@ Other Files:
 '''
 
 import numpy as np
-from distributions import uniform, exponential, gamma, normal, pascal, binomial
+from distributions import uniform, exponential, gamma, normal, pascal, binomial, poisson
 from tests import statistics_parameters_test
 from plots import *
 
@@ -37,10 +37,10 @@ b = 19
 m = 10 
 d = 2
 
-# Exponential parameters, E ~ (alpha_exp: ?)
+# Exponential parameters, E ~ (alpha_exp: rate parameter)
 alpha_exp = 3
 
-# Gamma parameters, G ~ (k: ?, alpha_gamma: ?)
+# Gamma parameters, G ~ (k: shape parameter, alpha_gamma: scale parameter)
 k_gamma = 10
 alpha_gamma = 3
 
@@ -48,10 +48,12 @@ alpha_gamma = 3
 n_binomial = 100
 p_binomial = 0.5
 
-# Pascal parameters, P ~ (r: success cases, p: success probability)
+# Pascal parameters, NB ~ (r: success cases, p: success probability)
 k_pascal = 4
 p_pascal = 0.8
 
+# Poisson parameters, P ~ (L: rate parameter)
+L = 10
 
 # Main
 # Lists Initialization
@@ -61,6 +63,9 @@ exp_values       = np.zeros(iterations)
 gamma_values     = np.zeros(iterations)
 binomial_values  = np.zeros(iterations)
 pascal_values    = np.zeros(iterations)
+# hypergeometric_values = np.zeros(iterations)
+poisson_values   = np.zeros(iterations)
+# empirical = np.zeros(iterations)
 
 # Distributions Generation
 for i in range(iterations):
@@ -70,6 +75,7 @@ for i in range(iterations):
     gamma_values[i]     = gamma(k_gamma, alpha_gamma)
     binomial_values[i]  = binomial(n_binomial, p_binomial)
     pascal_values[i]    = pascal(k_pascal, p_pascal)
+    poisson_values[i]   = poisson(L)
 
 # Test & Show
 print()
@@ -113,4 +119,11 @@ print('-----PASCAL DISTRIBUTION (NEGATIVE BINOMIAL)------')
 # print(pascal_values)
 statistics_parameters_test(pascal_values, (k_pascal*(1-p_pascal))/p_pascal, 'Mean')
 statistics_parameters_test(pascal_values, ((k_pascal*(1-p_pascal))/p_pascal**2), 'Variance')
+print()
+
+print('-----POISSON DISTRIBUTION------')
+# print(iterations, "pseudorandom numbers generated")
+# print(poisson_values)
+statistics_parameters_test(poisson_values, L, 'Mean')
+statistics_parameters_test(poisson_values, L, 'Variance')
 print()
