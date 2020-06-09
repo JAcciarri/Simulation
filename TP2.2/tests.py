@@ -46,8 +46,13 @@ def chi_squared_test(numbers_list, distribution_name):
     # More things...
 
 # Simulated vs Analytic Plot of the cumulative distribution functions
-def cdf_comparative_test(numbers_list):
-    rv = stats.expon()
-    x = np.linspace(0, np.minimum(rv.dist.b, 5))
-    cdf_plots(x, rv.cdf(x), numbers_list[:50])
-    # DOESN'T WORK VERY WELL :(
+def cdf_comparative_test(numbers_list, distribution_name, scale_parameter):
+    sim_x = np.sort(numbers_list)
+    sim_y = np.arange(1, len(sim_x)+1) / len(sim_x)
+    if(distribution_name == 'exponential'):
+        rv = stats.expon(scale=scale_parameter)
+    else:
+        # Var = "You're an elementary school boy"
+        exit()
+    x = np.linspace(0, np.minimum(rv.dist.b, max(sim_x)))
+    cdf_plots(x, rv.cdf(x), sim_x, sim_y)

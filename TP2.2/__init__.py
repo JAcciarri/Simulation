@@ -100,7 +100,7 @@ print('-----EXPONENTIAL DISTRIBUTION------')
 # print(exp_values)
 statistics_parameters_test(exp_values, 1/alpha_exp, 'Mean')
 statistics_parameters_test(exp_values, 1/(alpha_exp**2), 'Variance')
-cdf_comparative_test(exp_values) # TESTING... UNDER CONSTRUCTION
+cdf_comparative_test(exp_values, 'exponential', 1/alpha_exp)
 print()
 
 print('-----GAMMA DISTRIBUTION------')
