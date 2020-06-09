@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
+from scipy import stats
+from plots import cdf_plots
 
 
 # A list of pseudorandom number passes the mean and deviation tests within an acceptance intervale
@@ -8,25 +10,44 @@ acceptance_margin = 0.15
 acceptance_interval = [1 - acceptance_margin, 1 + acceptance_margin]
 
 # Simulated vs Analytic Statistic Parameters Calculation - Mean Test and Variance Test
-def statistics_parameters_test(numbers_list, real_parameters, statistic_parameter):
-    if (statistic_parameter == "Mean"): simulated_result = np.mean(numbers_list)
-    if (statistic_parameter == "Variance"): simulated_result = np.var(numbers_list)
-    print(statistic_parameter + " value is", simulated_result)
-    print("And it is expected to be", real_parameters)
-    relation = simulated_result / real_parameters
+def statistics_parameters_test(numbers_list, real_parameter_result, parameter_name):
+    if (parameter_name == "Mean"): simulated_result = np.mean(numbers_list)
+    if (parameter_name == "Variance"): simulated_result = np.var(numbers_list)
+    print(parameter_name + " value is", simulated_result)
+    print("And it is expected to be", real_parameter_result)
+    relation = simulated_result / real_parameter_result
     if (acceptance_interval[0] <= relation <= acceptance_interval[1]):
-        print(statistic_parameter + " Test PASSED within the acceptance margin of " + str(acceptance_margin*100) + " %")
+        print(parameter_name + " Test PASSED within the acceptance margin of " + str(acceptance_margin*100) + " %")
     else:
-        print(statistic_parameter + " Test REJECTED within the acceptance margin of " + str(acceptance_margin*100) + " %")
+        print(parameter_name + " Test REJECTED within the acceptance margin of " + str(acceptance_margin*100) + " %")
     print()
 
-
 # χ2 Test
-def chi_squared_test():
-    pass
-    # To-Do (?)
+def chi_squared_test(numbers_list, distribution_name):
+    # Something
+    if(distribution_name == 'uniform'):
+        pass # I don't know yet
+    elif(distribution_name == 'normal'):
+        pass # I don't know yet
+    elif(distribution_name == 'exponential'):
+        pass # I don't know yet
+    elif(distribution_name == 'gamma'):
+        pass # I don't know yet
+    elif(distribution_name == 'binomial'):
+        pass # I don't know yet
+    elif(distribution_name == 'pascal'):
+        pass # I don't know yet
+    elif(distribution_name == 'hypergeometric'):
+        pass # I don't know yet
+    elif(distribution_name == 'poisson'):
+        pass # I don't know yet
+    elif(distribution_name == 'empirical'):
+        pass # I don't know yet
+    # More things...
 
 # Simulated vs Analytic Plot of the cumulative distribution functions
-def cdf_comparative_test():
-    pass
-    # To-Do...
+def cdf_comparative_test(numbers_list):
+    rv = stats.expon()
+    x = np.linspace(0, np.minimum(rv.dist.b, 5))
+    cdf_plots(x, rv.cdf(x), numbers_list[:50])
+    # DOESN'T WORK VERY WELL :(

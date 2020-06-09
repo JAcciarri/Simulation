@@ -53,7 +53,7 @@ def pascal(k, p):
     x = floor(ln(tr)/qr)
     return x
 
-# Poission Distribution Generator
+# Poisson Distribution Generator
 def poisson(L):
     x = 0
     b = exp(-L)

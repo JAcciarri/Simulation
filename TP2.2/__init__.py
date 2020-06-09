@@ -21,9 +21,10 @@ Other Files:
 '''
 
 import numpy as np
+from scipy import stats
 from distributions import uniform, exponential, gamma, normal, pascal, binomial, poisson
-from tests import statistics_parameters_test
-from plots import *
+from tests import statistics_parameters_test, cdf_comparative_test
+
 
 # General parameters
 iterations = int(float(input("How many pseudorandom numbers would you want to analyze?: ")))  # example: 500
@@ -53,7 +54,8 @@ k_pascal = 4
 p_pascal = 0.8
 
 # Poisson parameters, P ~ (L: rate parameter)
-L = 10
+L = 10  # Lambda
+
 
 # Main
 # Lists Initialization
@@ -98,6 +100,7 @@ print('-----EXPONENTIAL DISTRIBUTION------')
 # print(exp_values)
 statistics_parameters_test(exp_values, 1/alpha_exp, 'Mean')
 statistics_parameters_test(exp_values, 1/(alpha_exp**2), 'Variance')
+cdf_comparative_test(exp_values) # TESTING... UNDER CONSTRUCTION
 print()
 
 print('-----GAMMA DISTRIBUTION------')
