@@ -65,6 +65,8 @@ def cdf_comparative_test(numbers_list, distribution_name, loc_p, scale_p, save):
         rv = stats.expon(loc=loc_p, scale=scale_p) # Working 10/10
     elif(distribution_name == 'gamma'):
         rv = stats.gamma(a=scale_p, loc=1, scale=1) # I don't know how to parametrize that well
+    elif(distribution_name == 'binomial'): # Fails because it is discrete
+        rv = stats.binom(loc_p, scale_p)
     else:
         pass
     x = np.linspace(np.maximum(rv.dist.a, min(sim_x)), np.minimum(rv.dist.b, max(sim_x)))
