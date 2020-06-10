@@ -22,11 +22,11 @@ def statistics_parameters_test(numbers_list, real_parameter_result, parameter_na
         print(parameter_name + " Test REJECTED within the acceptance margin of " + str(acceptance_margin*100) + " %")
     print()
 
+
 # Kolmogorov_Smirnov Test
-def test_Kolmogorov_Smirnov(array):
+def test_Kolmogorov_Smirnov(uniform_values):
     print('------------KOMOLGOROV SMIRNOV TEST------------')
-    # We create a copy in order to mantain the original untouched
-    test_array = np.array(array)
+    test_array = np.array(uniform_values)
     n = len(test_array)
     test_array.sort()
     # Value below was extracted from table with: alpha = 0.05, n > 50
@@ -47,13 +47,13 @@ def test_Kolmogorov_Smirnov(array):
 
     print('is', max_general, ' < ', d_kolmogorov, ' ?')
     if max_general > d_kolmogorov:
-        print("Null hypothesis REJECTION, the list of values doesn't correspond to an uniform U(0,1) distribution")
+        print("Null hypothesis REJECTION, the list of values doesn't correspond to an uniform U(a,b) distribution")
         result = "Rejected"
     else: 
-        print("Null hypothesis ACCEPTATION, the list of values does correspond to an uniform U(0,1) distribution")
+        print("Null hypothesis ACCEPTATION, the list of values does correspond to an uniform U(a,b) distribution")
         result = "Approved"
     print()
-    return result
+    
 
 
 # Simulated vs Analytic Plot of the cumulative distribution functions

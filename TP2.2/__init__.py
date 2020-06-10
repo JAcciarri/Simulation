@@ -29,9 +29,14 @@ from tests import statistics_parameters_test, cdf_comparative_test, test_Kolmogo
 iterations = int(float(input("How many pseudorandom numbers would you want to analyze?: ")))  # example: 500
 save = {"mode": False, "route": "graphs/", "total": iterations} # If mode is False, the graphs won't be saved
 
+
 # Uniform parameters, U ~ (a: min, b: max)
-a = 5
-b = 19
+a = 10
+b = 18
+
+# Normalize function in order to run the Kolmogorov_Smirnov Test
+def normalize(n):
+  return (n-a) / (b-a)
 
 # Normal parameters, N ~ (m: mean, d: deviation)
 m = 10 
@@ -56,9 +61,9 @@ p_pascal = 0.8
 L = 10  # Lambda
 
 # Hypergeometric parameters, H ~ (N: population initial value, p: population proportion consisting of I-class elements, n: sample size)
-N = 500
-n = 80
-p = 0.6
+N_hyper = 500
+n_hyper = 80
+p_hyper = 0.6
 
 # Main
 # Lists Initialization
@@ -81,7 +86,7 @@ for i in range(iterations):
     binomial_values[i]  = binomial(n_binomial, p_binomial)
     pascal_values[i]    = pascal(k_pascal, p_pascal)
     poisson_values[i]   = poisson(L)
-    hypergeometric_values[i] = hypergeometric(N, n, p)
+    hypergeometric_values[i] = hypergeometric(N_hyper, n_hyper, p_hyper)
 
 # Test & Show
 print()
@@ -90,8 +95,8 @@ print('-----UNIFORM DISTRIBUTION------')
 # print(uniform_values)
 statistics_parameters_test(uniform_values, (a+b)/2, 'Mean')
 statistics_parameters_test(uniform_values, ((b-a)**2)/12, 'Variance')
-#test_Kolmogorov_Smirnov(uniform_values)
-cdf_comparative_test(uniform_values, 'uniform', b-a)
+normalized_values = list(map(normalize, uniform_values))
+test_Kolmogorov_Smirnov(normalized_values)
 print()
 
 print('-----NORMAL DISTRIBUTION------')
@@ -133,8 +138,8 @@ print()
 print('-----HYPERGEOMETRIC DISTRIBUTION------')
 # print(iterations, "pseudorandom numbers generated")
 # print(pascal_values)
-statistics_parameters_test(hypergeometric_values, n*p, 'Mean')
-statistics_parameters_test(hypergeometric_values, n*p*(N-n/N-1), 'Variance')
+statistics_parameters_test(hypergeometric_values, n_hyper*p_hyper, 'Mean')
+statistics_parameters_test(hypergeometric_values, n_hyper*p_hyper*(1-p_hyper)*( (N_hyper-n_hyper)/(N_hyper-1)), 'Variance')
 print()
 
 print('-----POISSON DISTRIBUTION------')
