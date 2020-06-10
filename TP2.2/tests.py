@@ -54,15 +54,19 @@ def test_Kolmogorov_Smirnov(uniform_values):
     print()
     
 # Simulated vs Analytic Plot of the cumulative distribution functions
-def cdf_comparative_test(numbers_list, distribution_name, scale_parameter, save):
+def cdf_comparative_test(numbers_list, distribution_name, loc_p, scale_p, save):
     sim_x = np.sort(numbers_list)
     sim_y = np.arange(1, len(sim_x)+1) / len(sim_x)
-    if(distribution_name == 'exponential'):
-        rv = stats.expon(scale=scale_parameter)
-    elif(distribution_name == 'uniform'):
-        rv = stats.uniform(scale=scale_parameter)
+    if(distribution_name == 'uniform'):
+        rv = stats.uniform(loc=loc_p-0.1 , scale=1) # I don't know how to parametrize that well
+    elif(distribution_name == 'normal'):
+        rv = stats.norm(loc=loc_p, scale=scale_p) # Working 10/10
+    elif(distribution_name == 'exponential'):
+        rv = stats.expon(loc=loc_p, scale=scale_p) # Working 10/10
+    elif(distribution_name == 'gamma'):
+        rv = stats.gamma(a=scale_p, loc=1, scale=1) # I don't know how to parametrize that well
     else:
-        # Var = "You're an elementary school boy"
-        exit()
-    x = np.linspace(0, np.minimum(rv.dist.b, max(sim_x)))
+        pass
+    x = np.linspace(np.maximum(rv.dist.a, min(sim_x)), np.minimum(rv.dist.b, max(sim_x)))
     cdf_plots(x, rv.cdf(x), sim_x, sim_y, distribution_name, save)
+    #  Complete...
