@@ -9,13 +9,12 @@ Professor: Torres, Juan
 Final Date: 10/06/2020
 
 Python Libraries/Modules Used:
-    - Numpy:    Random Numbers, Functions and Array Manipulation
+    - Numpy:    Mersenne-Twister Generator, Functions and Array Manipulation
     - Pyplot:   Matplotlib Module for Graph Plotting
-    - Seaborn:  Statistical and Scientific Graphs
-    - Scypy:    Tests for Distributions like χ2
+    - Scypy:    Reference Distributions for Graphical Comparison Tests 
 
 Other Files:
-    - distributions: File with our analyzed distributions' definitions (and tests?)
+    - distributions: File with our analyzed distributions' definitions
     - tests:         File with our randomization tests for different distributions
     - plots:         File with our plotting and save functions
 '''
@@ -25,10 +24,10 @@ from distributions import uniform, exponential, gamma, normal, binomial, pascal,
 from tests import statistics_parameters_test, test_Kolmogorov_Smirnov, cdf_comparative_test
 from plots import graphing_show_all
 
+
 # General parameters
 iterations = int(float(input("DISTRIBUTIONS ANALYSIS\nHow many pseudorandom numbers would you want to analyze?: ")))  # example: 500
-save = {"mode": True, "route": "graphs/", "total": iterations} # If mode is False, the graphs won't be saved
-
+save = {"mode": False, "route": "graphs/", "total": iterations} # If mode is False, the graphs won't be saved
 
 # Uniform parameters, U ~ (a: min, b: max)
 a = 10
@@ -103,7 +102,7 @@ print('-----UNIFORM DISTRIBUTION------')
 # print(uniform_values)
 statistics_parameters_test(uniform_values, (a+b)/2, 'Mean')
 statistics_parameters_test(uniform_values, ((b-a)**2)/12, 'Variance')
-normalized_values = list(map(normalize, uniform_values))
+uniform_normalized_values = list(map(normalize, uniform_values))
 print()
 
 print('-----NORMAL DISTRIBUTION------')
@@ -156,19 +155,11 @@ print()
 
 # K-S Generalization Test
 print("//////////// PSEUDORANDOM GENERATOR TEST ////////////\n")
-print("All generator algorithms are uniform-based,")
-print("because we use the Numpy Mersenne-Twister Uniform Generator\n")
-print("Therefore if this generator successfully passes randomness tests,")
-print("by extension generators based on it remain pseudorandom\n")
-print("Note: As long as operations that can 'break' randomness are not used,")
-print("such as taking all numbers to a multiplication by zero\n")
-
-test_Kolmogorov_Smirnov(normalized_values)
+test_Kolmogorov_Smirnov(uniform_normalized_values)
 
 # Graphical Testings
-cdf_comparative_test(normalized_values, 'uniform', a, b, save) # Works 10/10
-cdf_comparative_test(normal_values, 'normal', m, d, save) # Works 10/10
-cdf_comparative_test(exponential_values, 'exponential', 0, 1/alpha_exp, save) # Works 10/10
-cdf_comparative_test(gamma_values, 'gamma', k_gamma, alpha_gamma, save) # Bad parametrization
-cdf_comparative_test(binomial_values, 'binomial', n_binomial, p_binomial, save) # Bad parametrization
+cdf_comparative_test(uniform_normalized_values, 'uniform', a, b, save)
+cdf_comparative_test(normal_values, 'normal', m, d, save)
+cdf_comparative_test(exponential_values, 'exponential', 0, 1/alpha_exp, save)
+cdf_comparative_test(gamma_values, 'gamma', k_gamma, alpha_gamma, save)
 graphing_show_all()

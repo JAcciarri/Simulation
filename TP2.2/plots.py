@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import matplotlib.pyplot as plt
-import seaborn as sns
 
 
 # Save any Plot
@@ -32,5 +31,6 @@ def cdf_plots(x, y, sim_x, sim_y, distribution_name, save):
         name = "graph_" + str(save["total"]) + "numbers_" + distribution_name
         save_plot(route, name)
 
+# Show all the figures at the same time
 def graphing_show_all():
     plt.show()

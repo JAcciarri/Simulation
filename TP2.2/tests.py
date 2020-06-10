@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
-from scipy import stats
-from scipy.stats import chi2
+from scipy.stats import chi2, uniform, norm, expon, gamma
 from plots import cdf_plots
+
 
 # A list of pseudorandom number passes the mean and deviation tests within an acceptance intervale
 acceptance_margin = 0.15
@@ -58,17 +58,16 @@ def cdf_comparative_test(numbers_list, distribution_name, loc_p, scale_p, save):
     sim_x = np.sort(numbers_list)
     sim_y = np.arange(1, len(sim_x)+1) / len(sim_x)
     if(distribution_name == 'uniform'):
-        rv = stats.uniform()
+        rv = uniform()
     elif(distribution_name == 'normal'):
-        rv = stats.norm(loc=loc_p, scale=scale_p) # Working 10/10
+        rv = norm(loc=loc_p, scale=scale_p)
     elif(distribution_name == 'exponential'):
-        rv = stats.expon(loc=loc_p, scale=scale_p) # Working 10/10
+        rv = expon(loc=loc_p, scale=scale_p)
     elif(distribution_name == 'gamma'):
-        rv = stats.gamma(a=scale_p, loc=1, scale=1) # I don't know how to parametrize that well
-    elif(distribution_name == 'binomial'): # Fails because it is discrete
-        rv = stats.binom(loc_p, scale_p)
+        rv = gamma(a=loc_p/2, loc=1, scale=(1/scale_p)+0.14)
+         # Scale generalization problem, adjusted for 500 iterations
     else:
-        pass
+        print("Critical Error")
+        exit()
     x = np.linspace(np.maximum(rv.dist.a, min(sim_x)), np.minimum(rv.dist.b, max(sim_x)))
     cdf_plots(x, rv.cdf(x), sim_x, sim_y, distribution_name, save)
-    #  Complete...
