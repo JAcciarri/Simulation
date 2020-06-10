@@ -24,7 +24,7 @@ def statistics_parameters_test(numbers_list, real_parameter_result, parameter_na
 
 # Kolmogorov_Smirnov Test
 def test_Kolmogorov_Smirnov(uniform_values):
-    print('------------KOMOLGOROV SMIRNOV TEST------------')
+    print('------------KOLMOGOROV SMIRNOV TEST------------')
     test_array = np.array(uniform_values)
     n = len(test_array)
     test_array.sort()

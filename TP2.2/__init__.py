@@ -22,10 +22,11 @@ Other Files:
 
 import numpy as np
 from distributions import uniform, exponential, gamma, normal, binomial, pascal, hypergeometric, poisson, empirical, empirical_init
-from tests import statistics_parameters_test, cdf_comparative_test, test_Kolmogorov_Smirnov
+from tests import statistics_parameters_test, test_Kolmogorov_Smirnov, cdf_comparative_test
+from plots import graphing_show_all
 
 # General parameters
-iterations = int(float(input("How many pseudorandom numbers would you want to analyze?: ")))  # example: 500
+iterations = int(float(input("DISTRIBUTIONS ANALYSIS\nHow many pseudorandom numbers would you want to analyze?: ")))  # example: 500
 save = {"mode": False, "route": "graphs/", "total": iterations} # If mode is False, the graphs won't be saved
 
 
@@ -93,16 +94,16 @@ for i in range(iterations):
     poisson_values[i]        = poisson(L)
     empirical_values[i]      = empirical()
 
-# Test & Show
-print()
-print(iterations, "pseudorandom numbers generated of each distributio\n")
-print("TESTS\n")
+print(iterations, "pseudorandom numbers generated of each distribution\n")
+
+# Statistics Parameter Tests
+print("//////////// STATISTICS PARAMETERS TESTS ////////////\n")
+
 print('-----UNIFORM DISTRIBUTION------')
 # print(uniform_values)
 statistics_parameters_test(uniform_values, (a+b)/2, 'Mean')
 statistics_parameters_test(uniform_values, ((b-a)**2)/12, 'Variance')
 normalized_values = list(map(normalize, uniform_values))
-test_Kolmogorov_Smirnov(normalized_values)
 print()
 
 print('-----NORMAL DISTRIBUTION------')
@@ -115,7 +116,6 @@ print('-----EXPONENTIAL DISTRIBUTION------')
 # print(exponential_values)
 statistics_parameters_test(exponential_values, 1/alpha_exp, 'Mean')
 statistics_parameters_test(exponential_values, 1/(alpha_exp**2), 'Variance')
-cdf_comparative_test(exponential_values, 'exponential', 1/alpha_exp)
 print()
 
 print('-----GAMMA DISTRIBUTION------')
@@ -153,3 +153,19 @@ print('-----EMPIRICAL DISTRIBUTION------')
 statistics_parameters_test(empirical_values, mean, 'Mean')
 statistics_parameters_test(empirical_values, variance, 'Variance')
 print()
+
+# K-S Generalization Test
+print("//////////// PSEUDORANDOM GENERATOR TEST ////////////\n")
+print("All generator algorithms are uniform-based,")
+print("because we use the Numpy Mersenne-Twister Uniform Generator\n")
+print("Therefore if this generator successfully passes randomness tests,")
+print("by extension generators based on it remain pseudorandom\n")
+print("Note: As long as operations that can 'break' randomness are not used,")
+print("such as taking all numbers to a multiplication by zero\n")
+
+test_Kolmogorov_Smirnov(normalized_values)
+
+# Graphical Testings
+cdf_comparative_test(exponential_values, 'exponential', 1/alpha_exp)
+cdf_comparative_test(exponential_values, 'exponential', 1/alpha_exp)
+graphing_show_all()
