@@ -54,7 +54,7 @@ def test_Kolmogorov_Smirnov(uniform_values):
     print()
     
 # Simulated vs Analytic Plot of the cumulative distribution functions
-def cdf_comparative_test(numbers_list, distribution_name, scale_parameter):
+def cdf_comparative_test(numbers_list, distribution_name, scale_parameter, save):
     sim_x = np.sort(numbers_list)
     sim_y = np.arange(1, len(sim_x)+1) / len(sim_x)
     if(distribution_name == 'exponential'):
@@ -65,4 +65,4 @@ def cdf_comparative_test(numbers_list, distribution_name, scale_parameter):
         # Var = "You're an elementary school boy"
         exit()
     x = np.linspace(0, np.minimum(rv.dist.b, max(sim_x)))
-    cdf_plots(x, rv.cdf(x), sim_x, sim_y)
+    cdf_plots(x, rv.cdf(x), sim_x, sim_y, distribution_name, save)

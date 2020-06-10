@@ -166,6 +166,5 @@ print("such as taking all numbers to a multiplication by zero\n")
 test_Kolmogorov_Smirnov(normalized_values)
 
 # Graphical Testings
-cdf_comparative_test(exponential_values, 'exponential', 1/alpha_exp)
-cdf_comparative_test(exponential_values, 'exponential', 1/alpha_exp)
+cdf_comparative_test(exponential_values, 'exponential', 1/alpha_exp, save)
 graphing_show_all()
