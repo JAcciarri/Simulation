@@ -27,7 +27,7 @@ from plots import graphing_show_all
 
 # General parameters
 iterations = int(float(input("DISTRIBUTIONS ANALYSIS\nHow many pseudorandom numbers would you want to analyze?: ")))  # example: 500
-save = {"mode": False, "route": "graphs/", "total": iterations} # If mode is False, the graphs won't be saved
+save = {"mode": True, "route": "graphs/", "total": iterations} # If mode is False, the graphs won't be saved
 
 
 # Uniform parameters, U ~ (a: min, b: max)

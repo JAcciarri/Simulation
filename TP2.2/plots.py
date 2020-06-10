@@ -15,7 +15,8 @@ def save_plot(route, name):
 # Plot for a comparative between Analytic and Simulated CDFs
 def cdf_plots(x, y, sim_x, sim_y, distribution_name, save):
     fig = plt.figure()
-    fig.canvas.set_window_title("Analytic vs Simulated CDFs")
+    fig.canvas.set_window_title("Analytic vs Simulated CDFs - " + distribution_name.capitalize() + " Distribution")
+    plt.title(distribution_name.capitalize() + " Distribution")
     plt.plot(x, y, 'b-', label="Analytic CDF")
     plt.plot(sim_x, sim_y, 'r.', label="Simulated CDF")
     plt.xlabel("X Values")
