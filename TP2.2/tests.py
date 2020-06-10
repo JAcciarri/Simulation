@@ -58,7 +58,7 @@ def cdf_comparative_test(numbers_list, distribution_name, loc_p, scale_p, save):
     sim_x = np.sort(numbers_list)
     sim_y = np.arange(1, len(sim_x)+1) / len(sim_x)
     if(distribution_name == 'uniform'):
-        rv = stats.uniform(loc=loc_p-0.1 , scale=1) # I don't know how to parametrize that well
+        rv = stats.uniform()
     elif(distribution_name == 'normal'):
         rv = stats.norm(loc=loc_p, scale=scale_p) # Working 10/10
     elif(distribution_name == 'exponential'):
