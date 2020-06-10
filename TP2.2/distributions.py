@@ -78,3 +78,29 @@ def poisson(L):
         x += 1
     return x
 
+# Empirical Distribution Definition for the Generator
+empirical_distribution = {
+    0: {"probability": 0.06, "accumulated": 0.06},
+    1: {"probability": 0.12, "accumulated": 0.18},
+    2: {"probability": 0.08, "accumulated": 0.26},
+    3: {"probability": 0.09, "accumulated": 0.35},
+    4: {"probability": 0.11, "accumulated": 0.46},
+    5: {"probability": 0.16, "accumulated": 0.60},
+    6: {"probability": 0.05, "accumulated": 0.65},
+    7: {"probability": 0.15, "accumulated": 0.80},
+    8: {"probability": 0.16, "accumulated": 0.96},
+    9: {"probability": 0.04, "accumulated": 1.00},
+}
+
+# Empirical Distribution Analytic Parameters Initialization
+def empirical_init():
+    mean = sum([key * value["probability"] for (key, value) in empirical_distribution.items()])
+    variance = sum([( (key - mean)**2 ) * value["probability"] for (key, value) in empirical_distribution.items()])
+    return mean, variance
+
+# Empirical Distribution Generator 
+def empirical():
+    r = random()
+    for (key, value) in empirical_distribution.items():
+        if (r <= value["accumulated"]):
+            return key

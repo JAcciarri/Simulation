@@ -21,8 +21,7 @@ Other Files:
 '''
 
 import numpy as np
-from scipy import stats
-from distributions import uniform, exponential, gamma, normal, pascal, binomial, poisson, hypergeometric
+from distributions import uniform, exponential, gamma, normal, binomial, pascal, hypergeometric, poisson, empirical, empirical_init
 from tests import statistics_parameters_test, cdf_comparative_test, test_Kolmogorov_Smirnov
 
 # General parameters
@@ -60,38 +59,45 @@ p_pascal = 0.8
 # Poisson parameters, P ~ (L: rate parameter)
 L = 10  # Lambda
 
-# Hypergeometric parameters, H ~ (N: population initial value, p: population proportion consisting of I-class elements, n: sample size)
+# Hypergeometric parameters, H ~ (N: population initial value,
+# p: population proportion consisting of I-class elements, n: sample size)
 N_hyper = 500
 n_hyper = 80
 p_hyper = 0.6
 
+# Empirical initialization
+mean, variance = empirical_init()
+
+
 # Main
 # Lists Initialization
-uniform_values   = np.zeros(iterations)
-normal_values    = np.zeros(iterations)
-exp_values       = np.zeros(iterations)
-gamma_values     = np.zeros(iterations)
-binomial_values  = np.zeros(iterations)
-pascal_values    = np.zeros(iterations)
+uniform_values        = np.zeros(iterations)
+normal_values         = np.zeros(iterations)
+exponential_values    = np.zeros(iterations)
+gamma_values          = np.zeros(iterations)
+binomial_values       = np.zeros(iterations)
+pascal_values         = np.zeros(iterations)
 hypergeometric_values = np.zeros(iterations)
-poisson_values   = np.zeros(iterations)
-# empirical = np.zeros(iterations)
+poisson_values        = np.zeros(iterations)
+empirical_values      = np.zeros(iterations)
 
 # Distributions Generation
 for i in range(iterations):
-    uniform_values[i]   = uniform(a, b)
-    normal_values[i]    = normal(m, d)
-    exp_values[i]       = exponential(1/alpha_exp)
-    gamma_values[i]     = gamma(k_gamma, alpha_gamma)
-    binomial_values[i]  = binomial(n_binomial, p_binomial)
-    pascal_values[i]    = pascal(k_pascal, p_pascal)
-    poisson_values[i]   = poisson(L)
+    uniform_values[i]        = uniform(a, b)
+    normal_values[i]         = normal(m, d)
+    exponential_values[i]    = exponential(1/alpha_exp)
+    gamma_values[i]          = gamma(k_gamma, alpha_gamma)
+    binomial_values[i]       = binomial(n_binomial, p_binomial)
+    pascal_values[i]         = pascal(k_pascal, p_pascal)
     hypergeometric_values[i] = hypergeometric(N_hyper, n_hyper, p_hyper)
+    poisson_values[i]        = poisson(L)
+    empirical_values[i]      = empirical()
 
 # Test & Show
 print()
+print(iterations, "pseudorandom numbers generated of each distributio\n")
+print("TESTS\n")
 print('-----UNIFORM DISTRIBUTION------')
-# print(iterations, "pseudorandom numbers generated")
 # print(uniform_values)
 statistics_parameters_test(uniform_values, (a+b)/2, 'Mean')
 statistics_parameters_test(uniform_values, ((b-a)**2)/12, 'Variance')
@@ -100,51 +106,50 @@ test_Kolmogorov_Smirnov(normalized_values)
 print()
 
 print('-----NORMAL DISTRIBUTION------')
-# print(iterations, "pseudorandom numbers generated")
 # print(normal_values)
 statistics_parameters_test(normal_values, m, 'Mean')
 statistics_parameters_test(normal_values, d**2, 'Variance')
 print()
 
 print('-----EXPONENTIAL DISTRIBUTION------')
-# print(iterations, "pseudorandom numbers generated")
-# print(exp_values)
-statistics_parameters_test(exp_values, 1/alpha_exp, 'Mean')
-statistics_parameters_test(exp_values, 1/(alpha_exp**2), 'Variance')
-cdf_comparative_test(exp_values, 'exponential', 1/alpha_exp)
+# print(exponential_values)
+statistics_parameters_test(exponential_values, 1/alpha_exp, 'Mean')
+statistics_parameters_test(exponential_values, 1/(alpha_exp**2), 'Variance')
+cdf_comparative_test(exponential_values, 'exponential', 1/alpha_exp)
 print()
 
 print('-----GAMMA DISTRIBUTION------')
-# print(iterations, "pseudorandom numbers generated")
 # print(gamma_values)
 statistics_parameters_test(gamma_values, k_gamma/alpha_gamma, 'Mean')
 statistics_parameters_test(gamma_values, k_gamma/(alpha_gamma**2), 'Variance')
 print()
 
 print('-----BINOMIAL DISTRIBUTION------')
-# print(iterations, "pseudorandom numbers generated")
 # print(binomial_values)
 statistics_parameters_test(binomial_values, n_binomial*p_binomial, 'Mean')
 statistics_parameters_test(binomial_values, (n_binomial*p_binomial*(1-p_binomial)), 'Variance')
 print()
 
 print('-----PASCAL DISTRIBUTION (NEGATIVE BINOMIAL)------')
-# print(iterations, "pseudorandom numbers generated")
 # print(pascal_values)
 statistics_parameters_test(pascal_values, (k_pascal*(1-p_pascal))/p_pascal, 'Mean')
 statistics_parameters_test(pascal_values, ((k_pascal*(1-p_pascal))/p_pascal**2), 'Variance')
 print()
 
 print('-----HYPERGEOMETRIC DISTRIBUTION------')
-# print(iterations, "pseudorandom numbers generated")
 # print(pascal_values)
 statistics_parameters_test(hypergeometric_values, n_hyper*p_hyper, 'Mean')
 statistics_parameters_test(hypergeometric_values, n_hyper*p_hyper*(1-p_hyper)*( (N_hyper-n_hyper)/(N_hyper-1)), 'Variance')
 print()
 
 print('-----POISSON DISTRIBUTION------')
-# print(iterations, "pseudorandom numbers generated")
 # print(poisson_values)
 statistics_parameters_test(poisson_values, L, 'Mean')
 statistics_parameters_test(poisson_values, L, 'Variance')
+print()
+
+print('-----EMPIRICAL DISTRIBUTION------')
+# print(empirical_values)
+statistics_parameters_test(empirical_values, mean, 'Mean')
+statistics_parameters_test(empirical_values, variance, 'Variance')
 print()

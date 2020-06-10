@@ -22,7 +22,6 @@ def statistics_parameters_test(numbers_list, real_parameter_result, parameter_na
         print(parameter_name + " Test REJECTED within the acceptance margin of " + str(acceptance_margin*100) + " %")
     print()
 
-
 # Kolmogorov_Smirnov Test
 def test_Kolmogorov_Smirnov(uniform_values):
     print('------------KOMOLGOROV SMIRNOV TEST------------')
@@ -54,8 +53,6 @@ def test_Kolmogorov_Smirnov(uniform_values):
         result = "Approved"
     print()
     
-
-
 # Simulated vs Analytic Plot of the cumulative distribution functions
 def cdf_comparative_test(numbers_list, distribution_name, scale_parameter):
     sim_x = np.sort(numbers_list)
