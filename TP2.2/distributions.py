@@ -53,6 +53,20 @@ def pascal(k, p):
     x = floor(ln(tr)/qr)
     return x
 
+# Hypergeometric Distribution Generator
+def hypergeometric(N, n, p):
+    x = 0
+    for i in range(1, n):
+        r = random()
+        if (r - p <= 0):
+            s = 1
+            x = x + 1
+        else:
+            s = 0
+        p = (N * p - s) / (N - 1)
+        N = N - 1
+    return x
+
 # Poisson Distribution Generator
 def poisson(L):
     x = 0
@@ -63,3 +77,4 @@ def poisson(L):
         tr = tr * r
         x += 1
     return x
+

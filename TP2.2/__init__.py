@@ -22,9 +22,8 @@ Other Files:
 
 import numpy as np
 from scipy import stats
-from distributions import uniform, exponential, gamma, normal, pascal, binomial, poisson
-from tests import statistics_parameters_test, cdf_comparative_test
-
+from distributions import uniform, exponential, gamma, normal, pascal, binomial, poisson, hypergeometric
+from tests import statistics_parameters_test, cdf_comparative_test, test_Kolmogorov_Smirnov
 
 # General parameters
 iterations = int(float(input("How many pseudorandom numbers would you want to analyze?: ")))  # example: 500
@@ -56,6 +55,10 @@ p_pascal = 0.8
 # Poisson parameters, P ~ (L: rate parameter)
 L = 10  # Lambda
 
+# Hypergeometric parameters, H ~ (N: population initial value, p: population proportion consisting of I-class elements, n: sample size)
+N = 500
+n = 80
+p = 0.6
 
 # Main
 # Lists Initialization
@@ -65,7 +68,7 @@ exp_values       = np.zeros(iterations)
 gamma_values     = np.zeros(iterations)
 binomial_values  = np.zeros(iterations)
 pascal_values    = np.zeros(iterations)
-# hypergeometric_values = np.zeros(iterations)
+hypergeometric_values = np.zeros(iterations)
 poisson_values   = np.zeros(iterations)
 # empirical = np.zeros(iterations)
 
@@ -78,6 +81,7 @@ for i in range(iterations):
     binomial_values[i]  = binomial(n_binomial, p_binomial)
     pascal_values[i]    = pascal(k_pascal, p_pascal)
     poisson_values[i]   = poisson(L)
+    hypergeometric_values[i] = hypergeometric(N, n, p)
 
 # Test & Show
 print()
@@ -86,6 +90,8 @@ print('-----UNIFORM DISTRIBUTION------')
 # print(uniform_values)
 statistics_parameters_test(uniform_values, (a+b)/2, 'Mean')
 statistics_parameters_test(uniform_values, ((b-a)**2)/12, 'Variance')
+#test_Kolmogorov_Smirnov(uniform_values)
+cdf_comparative_test(uniform_values, 'uniform', b-a)
 print()
 
 print('-----NORMAL DISTRIBUTION------')
@@ -122,6 +128,13 @@ print('-----PASCAL DISTRIBUTION (NEGATIVE BINOMIAL)------')
 # print(pascal_values)
 statistics_parameters_test(pascal_values, (k_pascal*(1-p_pascal))/p_pascal, 'Mean')
 statistics_parameters_test(pascal_values, ((k_pascal*(1-p_pascal))/p_pascal**2), 'Variance')
+print()
+
+print('-----HYPERGEOMETRIC DISTRIBUTION------')
+# print(iterations, "pseudorandom numbers generated")
+# print(pascal_values)
+statistics_parameters_test(hypergeometric_values, n*p, 'Mean')
+statistics_parameters_test(hypergeometric_values, n*p*(N-n/N-1), 'Variance')
 print()
 
 print('-----POISSON DISTRIBUTION------')

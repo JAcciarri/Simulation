@@ -2,8 +2,8 @@
 
 import numpy as np
 from scipy import stats
+from scipy.stats import chi2
 from plots import cdf_plots
-
 
 # A list of pseudorandom number passes the mean and deviation tests within an acceptance intervale
 acceptance_margin = 0.15
@@ -22,28 +22,39 @@ def statistics_parameters_test(numbers_list, real_parameter_result, parameter_na
         print(parameter_name + " Test REJECTED within the acceptance margin of " + str(acceptance_margin*100) + " %")
     print()
 
-# χ2 Test
-def chi_squared_test(numbers_list, distribution_name):
-    # Something
-    if(distribution_name == 'uniform'):
-        pass # I don't know yet
-    elif(distribution_name == 'normal'):
-        pass # I don't know yet
-    elif(distribution_name == 'exponential'):
-        pass # I don't know yet
-    elif(distribution_name == 'gamma'):
-        pass # I don't know yet
-    elif(distribution_name == 'binomial'):
-        pass # I don't know yet
-    elif(distribution_name == 'pascal'):
-        pass # I don't know yet
-    elif(distribution_name == 'hypergeometric'):
-        pass # I don't know yet
-    elif(distribution_name == 'poisson'):
-        pass # I don't know yet
-    elif(distribution_name == 'empirical'):
-        pass # I don't know yet
-    # More things...
+# Kolmogorov_Smirnov Test
+def test_Kolmogorov_Smirnov(array):
+    print('------------KOMOLGOROV SMIRNOV TEST------------')
+    # We create a copy in order to mantain the original untouched
+    test_array = np.array(array)
+    n = len(test_array)
+    test_array.sort()
+    # Value below was extracted from table with: alpha = 0.05, n > 50
+    d_kolmogorov = 1.36 / (n**0.5)
+    Dn_positive = []
+    Dn_negative = []
+    for i in range(n):
+        Dn_positive.append(i/n - test_array[i])
+        Dn_negative.append(test_array[i] - (i-1)/n)
+
+    max_dn_pos = max([x for x in Dn_positive])
+    max_dn_neg = max([x for x in Dn_negative])
+    
+    if (max_dn_pos > max_dn_neg): 
+        max_general = max_dn_pos 
+    else:
+        max_general = max_dn_neg
+
+    print('is', max_general, ' < ', d_kolmogorov, ' ?')
+    if max_general > d_kolmogorov:
+        print("Null hypothesis REJECTION, the list of values doesn't correspond to an uniform U(0,1) distribution")
+        result = "Rejected"
+    else: 
+        print("Null hypothesis ACCEPTATION, the list of values does correspond to an uniform U(0,1) distribution")
+        result = "Approved"
+    print()
+    return result
+
 
 # Simulated vs Analytic Plot of the cumulative distribution functions
 def cdf_comparative_test(numbers_list, distribution_name, scale_parameter):
@@ -51,6 +62,8 @@ def cdf_comparative_test(numbers_list, distribution_name, scale_parameter):
     sim_y = np.arange(1, len(sim_x)+1) / len(sim_x)
     if(distribution_name == 'exponential'):
         rv = stats.expon(scale=scale_parameter)
+    elif(distribution_name == 'uniform'):
+        rv = stats.uniform(scale=scale_parameter)
     else:
         # Var = "You're an elementary school boy"
         exit()
