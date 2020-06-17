@@ -1,3 +1,24 @@
+'''
+UTN FRRO - Simulation 2020
+TP3.0 - Single-server Queue System/Queueing Model
+
+Authors: Joshua Acciarri (44823) & Nicolás Antonelli (44852)
+Professor: Torres, Juan
+Final Date: ?/?/2020
+
+Python Libraries/Modules Used:
+    - Numpy:    Random Numbers and Array Manipulation
+    - Pyplot:   Matplotlib Module for Graph Plotting
+    - Seaborn:  Statistical and Scientific Graphs
+    - Scypy:    Distributions like χ2
+    - Pandas:   Series and DataFrame table for tests results' summaring
+
+Other Files:
+    - generators:   File with our pseudorandom numbers generators
+    - tests:        File with our randomization tests
+    - plots:        File with our plotting and save functions
+'''
+
 # Constants
 Q_LIMIT = 100
 BUSY = 1
