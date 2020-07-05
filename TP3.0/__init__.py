@@ -1,10 +1,16 @@
+# -*- coding: utf-8 -*-
+
 '''
 UTN FRRO - Simulation 2020
-TP3.0 - Single-server Queue System/Queueing Model
+TP3.0 - Single-server Queue System/Queuing Model
 
-Authors: Joshua Acciarri (44823) & Nicolás Antonelli (44852)
+Authors:
+    - Joshua Acciarri (44823)
+    - Nicolás Antonelli (44852)
+    - Alejandro Recalde (44704)
+
 Professor: Torres, Juan
-Final Date: ?/?/2020
+Final Date: 08/07/2020
 
 Python Libraries/Modules Used:
     - Numpy:    Random Numbers and Array Manipulation
@@ -14,63 +20,77 @@ Python Libraries/Modules Used:
     - Pandas:   Series and DataFrame table for tests results' summaring
 
 Other Files:
-    - generators:   File with our pseudorandom numbers generators
     - tests:        File with our randomization tests
     - plots:        File with our plotting and save functions
 '''
 
-# Constants
-Q_LIMIT = 100
-BUSY = 1
-IDLE = 0
 
-# Variables
-num_custs_delayed = 0
+# Important Parameters (Ask Input for some of them??)
+queue_limit = 100
+num_customers_delayed = 0
 next_event_type = -1
-"""
-num_events
-num_in_q
-server_status
-"""
-# Taken from "input file"
 mean_interarrival = 1
 mean_service = 0.5 
 num_delays_required = 1000
+num_events = 2
+# Add the other variables: num_in_queue, server_busy...
 
-# Functions
 
+# Model Initialization
 def initialize():
-    return
+    time = 0.0 # Simulation Clock
+    server_busy = False
+    num_in_queue = 0
+    time_last_event = 0.0
+    # Statistical Counters
+    num_customers_delayed = 0
+    total_of_delays = 0.0
+    area_num_in_queue = 0.0
+    area_server_status = 0.0
+    # Initialize event list
+    time_next_event[1] = time + exponential(mean_interarrival)
+    time_next_event[2] = 1.0e+30
+
+# Some info...
 def timing():
-    return
+    pass
+
+# Some info...
 def arrive():
-    return
+    pass
+
+# Some info...
 def depart():
-    return
+    pass
+
+# Some info...
 def report():
-    return
+    pass
+
+# Some info...
 def update_time_avg_stats():
-    return
-def expon(mean_interarrival):
-    return
+    pass
+
+# Some info...
+def exponential(mean_interarrival):
+    pass
 
 
 # Main
-num_events = 2
 print("Single-server queueing system")
-print("Mean interrarival time", mean_interarrival, "minutes")
-print("Mean service time", mean_service, "minutes")
-print("Number of customers", num_delays_required)
+print("Mean interarrival time:", mean_interarrival, "minutes")
+print("Mean service time:", mean_service, "minutes")
+print("Number of customers:", num_delays_required)
 
 # Initialize the simulation
 initialize()
 # Run the simulation while more delays are still needed
-while(num_custs_delayed < num_delays_required):
+while(num_customers_delayed < num_delays_required):
     # Determine the next event
     timing()
     # Update time-average statistical accumulators
     update_time_avg_stats()
-    #Invoke the appropriate event function
+    # Invoke the appropriate event function
     if (next_event_type == 1):
         arrive()
     elif (next_event_type == 2):
