@@ -1,5 +1,5 @@
 # Simulation
-### Repository to upload differents assignments referred to the subject "Simulacion" using Python - UTN FRRo 2020
+### Repository to upload different assignments referred to the subject "Simulation" using Python - UTN FRRo 2020
 
 ##### Navigate through the different folders
 
@@ -12,6 +12,14 @@ Strategies Analysis with limited and unlimited capital. Compare their advantages
 ## [TP2.1] - Pseudorandom Generators
 Study and history of pseudorandom number generators. Randomness tests applied in order to verify some properties.
 
-[TP1.1]: ./tp1.1
-[TP1.2]: ./tp1.2
+## [TP2.2] - Pseudorandoms with Different Distributions
+Study of pseudo-random numbers with different distribution's generator algorithms, then performing some tests on them
+
+## [TP3.0] - Single-server Queue System
+M/M/1 Queue Model: Simulation and Analysis
+
+[TP1.1]: ./TP1.1
+[TP1.2]: ./TP1.2
 [TP2.1]: ./TP2.1
+[TP2.2]: ./TP2.2
+[TP3.0]: ./TP3.0
