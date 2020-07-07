@@ -3,17 +3,9 @@
 from processes import arrive, depart, initialize, report, timing, update_time_stats
 
 
-def run_queue_simulation(model):
-    # Specific Parameters
-    model_config = {
-        "mean_interarrival": 1.0,
-        "mean_service": 0.5,
-        "num_delays_required": 1000
-    }
-
+def run_queue_simulation(config):
     # Initialize Run
-    initialize(model, model_config)
-    
+    model = initialize(config)
     # Run Information
     print("Single-server queueing system (M/M/1)")
     print("Mean interarrival time:", model["mean_interarrival"], "minutes")
@@ -31,7 +23,6 @@ def run_queue_simulation(model):
             arrive(model)
         elif next_event_type == "departure":
             depart(model)
-    print()
     # Invoke the report generator and end the simulation
     result = report(model)
     return result

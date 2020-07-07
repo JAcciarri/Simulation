@@ -11,32 +11,27 @@ def exponential_generator(mean):
 
 
 # Model Initialization
-def initialize(model, model_config):
-    # General parameters initialization
-    model["num_in_queue"] = 0
-    model["server_busy"] = False
-    model["time"] = 0.0  # Simulation Clock
-    model["time_arrival_queue"] = Queue(maxsize=0)
-    model["time_last_event"] = 0.0
-
-    # Statistical counters initialization
-    model["area_num_in_queue"] = 0.0
-    model["area_server_status"] = 0.0
-    model["num_customers_delayed"] = 0
-    model["total_of_delays"] = 0.0
-    model["event_list"] = {
-        "arrival": 0.0,
-        "departure": 0.0
+def initialize(config):
+    return {
+        # Initial parameters
+        "mean_interarrival": config["mean_interarrival"],
+        "mean_service": config["mean_service"],
+        "num_delays_required": config["num_delays_required"],
+        # Statistical counters
+        "num_customers_delayed": 0,
+        "area_num_in_queue": 0.0,
+        "area_server_status": 0.0,
+        "total_of_delays": 0.0,
+        "num_in_queue": 0,
+        "server_busy": False,
+        "time": 0.0,  # Simulation Clock
+        "time_arrival_queue": Queue(maxsize=0),
+        "time_last_event": 0.0,
+        "event_list": {
+            "arrival": exponential_generator(config["mean_interarrival"]),
+            "departure": float("inf"),
+        },
     }
-
-    # Specific parameters
-    model["mean_interarrival"]   = model_config["mean_interarrival"]
-    model["mean_service"]        = model_config["mean_service"]
-    model["num_delays_required"] = model_config["num_delays_required"]
-
-    # Initialize event list
-    model["event_list"]["arrival"]   = model["time"] + exponential_generator(model["mean_interarrival"])
-    model["event_list"]["departure"] = float("inf")
 
 
 # Determination of the next event's type and time
@@ -58,20 +53,24 @@ def update_time_stats(model):
 
 # Arrival Event
 def arrive(model):
-    model["event_list"]["arrival"] = model["time"] + exponential_generator(model["mean_interarrival"])
-    if (model["server_busy"]):
+    model["event_list"]["arrival"] = model["time"] + exponential_generator(
+        model["mean_interarrival"]
+    )
+    if model["server_busy"]:
         model["num_in_queue"] += 1
         model["time_arrival_queue"].put(model["time"])
-        print(model["time_arrival_queue"].qsize(), end=', ')
+        print(model["time_arrival_queue"].qsize(), end=", ")
     else:
         model["num_customers_delayed"] += 1
         model["server_busy"] = True
-        model["event_list"]["departure"] = model["time"] + exponential_generator(model["mean_service"])
+        model["event_list"]["departure"] = model["time"] + exponential_generator(
+            model["mean_service"]
+        )
 
 
 # Departure Event
 def depart(model):
-    if (model["num_in_queue"] == 0):
+    if model["num_in_queue"] == 0:
         model["server_busy"] = False
         model["event_list"]["departure"] = float("inf")
     else:
@@ -79,7 +78,9 @@ def depart(model):
         delay = model["time"] - model["time_arrival_queue"].get()
         model["total_of_delays"] += delay
         model["num_customers_delayed"] += 1
-        model["event_list"]["departure"] = model["time"] + exponential_generator(model["mean_service"])
+        model["event_list"]["departure"] = model["time"] + exponential_generator(
+            model["mean_service"]
+        )
 
 
 # Report Generator
@@ -88,9 +89,9 @@ def report(model):
         "avg_delay_in_queue": model["total_of_delays"] / model["num_customers_delayed"],
         "avg_num_in_queue": model["area_num_in_queue"] / model["time"],
         "server_utilization": model["area_server_status"] / model["time"],
-        "total_time": model["time"]
+        "total_time": model["time"],
     }
-    print(f'\n\nFinal Report:')
+    print(f"\n\nFinal Report:")
     print(f'Average delay in queue: {result["avg_delay_in_queue"]}')
     print(f'Average number of clients in queue: {result["avg_num_in_queue"]}')
     print(f'Server utilization: {result["server_utilization"]}')

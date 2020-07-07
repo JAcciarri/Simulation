@@ -24,44 +24,26 @@ Other Files:
     - plots:       Plotting functions with optional automatic save
 """
 
-
-from queue import Queue
 from single_run import run_queue_simulation
-# from plots import *
 
-# General Configurations
-iterations = int(float(input("QUEUING SYSTEM\nHow many iterations do you want to simulate?: ")))  # example: 500 
-# save = {"mode": False, "route": "graphs/", "total": iterations} # If mode is False, the graphs won't be saved # NOT IMPLEMENTED YET
+# General Configuration
+n_runs = 10
 
 # Model Parameters Definition
 results = []
-# queue_limit = 100 # NOT IMPLEMENTED YET
-model = {
-    "area_num_in_queue": 0.0,
-    "area_server_status": 0.0,
-    "mean_interarrival": 0.0,
-    "mean_service": 0.0,
-    "num_customers_delayed": 0,
-    "num_delays_required": 0,
-    "num_in_queue": 0,
-    "server_busy": False,
-    "time": 0.0,
-    "time_arrival_queue": Queue(maxsize=0),
-    "time_last_event": 0.0,
-    "total_of_delays": 0.0,
-    "event_list": {
-        "arrival": 0.0,
-        "departure": 0.0
-    }
+config = {
+    "mean_interarrival": 1.0,
+    "mean_service": 0.5,
+    "num_delays_required": 1000,
 }
 
 # Main
-if __name__ == '__main__':
-    for i in range(iterations):
-        print("\nModel " + str(i+1) + ":")
-        result = run_queue_simulation(model)
+if __name__ == "__main__":
+    for i in range(n_runs):
+        print("\nModel " + str(i + 1) + ":")
+        result = run_queue_simulation(config)
         results.append(result)
         # Other Runs with other configs...
-    
-    print((i+1), "iterations results:", results)
+
+    print((i + 1), "iterations results:", results)
     # Graphs with results...
