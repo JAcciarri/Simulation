@@ -68,8 +68,9 @@ def depart(model):
 
 # Report Generator
 def report(model):
-    print(f'Final Report:')
-    print(f'\n Average delay in queue: {model["total_of_delays"] / model["num_customers_delayed"]}')
-    print(f'\n Average number of clients in queue: {model["area_num_in_queue"] / model["time"]}')
-    print(f'\n Server utilization: {model["area_server_status"] / model["time"]}')
-    print(f'\n Time simulation ended: {model["time"]}')
+    print(f'\n\nFinal Report:')
+    print(f'Average delay in queue: {model["total_of_delays"] / model["num_customers_delayed"]}')
+    print(f'Average number of clients in queue: {model["area_num_in_queue"] / model["time"]}')
+    print(f'Server utilization: {model["area_server_status"] / model["time"]}')
+    print(f'Time simulation ended: {model["time"]}')
+    print()

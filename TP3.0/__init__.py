@@ -19,21 +19,22 @@ Python Libraries/Modules Used:
     - Pandas:   Series and DataFrame tables
 
 Other Files:
-    - processes:  Queuing model processes and random generator
-    - plots:      Plotting functions with optional automatic save
+    - single_run:  Execution for every model configuration
+    - processes:   Queuing model processes and random generator
+    - plots:       Plotting functions with optional automatic save
 """
 
 
 from queue import Queue
-from processes import arrive, depart, initialize, report, timing, update_time_stats
+from single_run import run_queue_simulation
 # from plots import *
 
 # General Configurations
-# iterations = int(float(input("QUEUING SYSTEM M/M/1\nHow many iterations do you want to simulate?: ")))  # example: 500
-# save = {"mode": False, "route": "graphs/", "total": iterations} # If mode is False, the graphs won't be saved
+# iterations = int(float(input("QUEUING SYSTEM\nHow many iterations do you want to simulate?: ")))  # example: 500 
+# save = {"mode": False, "route": "graphs/", "total": iterations} # If mode is False, the graphs won't be saved # NOT IMPLEMENTED YET
 
 # Model Parameters Definition
-# queue_limit = 100
+# queue_limit = 100 # NOT IMPLEMENTED YET
 model = {
     "area_num_in_queue": 0.0,
     "area_server_status": 0.0,
@@ -55,24 +56,7 @@ model = {
 
 # Main
 if __name__ == '__main__':
-    print("Single-server queueing system")
-    print("Mean interarrival time:", model["mean_interarrival"], "minutes")
-    print("Mean service time:", model["mean_service"], "minutes")
-    print("Number of customers:", model["num_delays_required"])
-
-    # Initialize the simulation
-    initialize(model)
-    # Run the simulation while more delays are still needed
-    while model["num_customers_delayed"] < model["num_delays_required"]:
-        # Determine the next event
-        next_event_type, model["time"] = timing(model["event_list"])
-        # Update time-average statistical accumulators
-        update_time_stats(model)
-        # Invoke the appropriate event function
-        if next_event_type == "arrival":
-            arrive(model)
-        elif next_event_type == "departure":
-            depart(model)
-    print()
-    # Invoke the report generator and end the simulation
-    report(model)
+    print("\nModel 1:")
+    run_queue_simulation(model)
+    
+    # Graphs...
