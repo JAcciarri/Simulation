@@ -30,10 +30,11 @@ from single_run import run_queue_simulation
 # from plots import *
 
 # General Configurations
-# iterations = int(float(input("QUEUING SYSTEM\nHow many iterations do you want to simulate?: ")))  # example: 500 
+iterations = int(float(input("QUEUING SYSTEM\nHow many iterations do you want to simulate?: ")))  # example: 500 
 # save = {"mode": False, "route": "graphs/", "total": iterations} # If mode is False, the graphs won't be saved # NOT IMPLEMENTED YET
 
 # Model Parameters Definition
+results = []
 # queue_limit = 100 # NOT IMPLEMENTED YET
 model = {
     "area_num_in_queue": 0.0,
@@ -56,7 +57,11 @@ model = {
 
 # Main
 if __name__ == '__main__':
-    print("\nModel 1:")
-    run_queue_simulation(model)
+    for i in range(iterations):
+        print("\nModel " + str(i+1) + ":")
+        result = run_queue_simulation(model)
+        results.append(result)
+        # Other Runs with other configs...
     
-    # Graphs...
+    print((i+1), "iterations results:", results)
+    # Graphs with results...
