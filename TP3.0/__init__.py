@@ -2,7 +2,7 @@
 
 """
 UTN FRRO - Simulation 2020
-TP3.0 - Single-server Queue System/Queuing Model
+TP3.0 - Single-server Queuing System
 
 Authors:
     - Joshua Acciarri (44823)
@@ -16,19 +16,24 @@ Python Libraries/Modules Used:
     - Numpy:    Random Numbers and Array Manipulation
     - Pyplot:   Matplotlib Module for Graph Plotting
     - Seaborn:  Statistical and Scientific Graphs
-    - Scypy:    Distributions like χ2
-    - Pandas:   Series and DataFrame table for tests results' summaring
+    - Pandas:   Series and DataFrame tables
 
 Other Files:
-    - tests:        File with our randomization tests --> sacar??
-    - plots:        File with our plotting and save functions
+    - processes:  Queuing model processes and random generator
+    - plots:      Plotting functions with optional automatic save
 """
 
 
 from queue import Queue
 from processes import arrive, depart, initialize, report, timing, update_time_stats
+# from plots import *
+
+# General Configurations
+# iterations = int(float(input("QUEUING SYSTEM M/M/1\nHow many iterations do you want to simulate?: ")))  # example: 500
+# save = {"mode": False, "route": "graphs/", "total": iterations} # If mode is False, the graphs won't be saved
 
 # Model Parameters Definition
+# queue_limit = 100
 model = {
     "area_num_in_queue": 0.0,
     "area_server_status": 0.0,
@@ -68,5 +73,6 @@ if __name__ == '__main__':
             arrive(model)
         elif next_event_type == "departure":
             depart(model)
+    print()
     # Invoke the report generator and end the simulation
     report(model)
