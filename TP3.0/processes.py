@@ -13,23 +13,31 @@ def exponential_generator(mean):
 # Model Initialization
 def initialize(config):
     return {
-        # Initial parameters
-        "mean_interarrival": config["mean_interarrival"],
-        "mean_service": config["mean_service"],
-        "num_delays_required": config["num_delays_required"],
-        # Statistical counters
-        "num_customers_delayed": 0,
-        "area_num_in_queue": 0.0,
-        "area_server_status": 0.0,
-        "total_of_delays": 0.0,
-        "num_in_queue": 0,
-        "server_busy": False,
-        "time": 0.0,  # Simulation Clock
-        "time_arrival_queue": Queue(maxsize=0),
-        "time_last_event": 0.0,
-        "event_list": {
-            "arrival": exponential_generator(config["mean_interarrival"]),
-            "departure": float("inf"),
+        "model": {
+            # Initial parameters
+            "mean_interarrival": config["mean_interarrival"],
+            "mean_service": config["mean_service"],
+            "num_delays_required": config["num_delays_required"],
+            # Statistical counters
+            "num_customers_delayed": 0,
+            "area_num_in_queue": 0.0,
+            "area_server_status": 0.0,
+            "total_of_delays": 0.0,
+            "num_in_queue": 0,
+            "server_busy": False,
+            "time": 0.0,  # Simulation Clock
+            "time_arrival_queue": Queue(maxsize=0),
+            "time_last_event": 0.0,
+            "event_list": {
+                "arrival": exponential_generator(config["mean_interarrival"]),
+                "departure": float("inf"),
+            },
+        },
+        "results_time": {
+            "avg_delay_in_queue": {},
+            "avg_num_in_queue": {},
+            "server_utilization": {},
+            "total_time": 0,
         },
     }
 
@@ -84,17 +92,14 @@ def depart(model):
 
 
 # Report Generator
-def report(model):
-    result = {
-        "avg_delay_in_queue": model["total_of_delays"] / model["num_customers_delayed"],
-        "avg_num_in_queue": model["area_num_in_queue"] / model["time"],
-        "server_utilization": model["area_server_status"] / model["time"],
-        "total_time": model["time"],
-    }
-    print(f"\n\nFinal Report:")
-    print(f'Average delay in queue: {result["avg_delay_in_queue"]}')
-    print(f'Average number of clients in queue: {result["avg_num_in_queue"]}')
-    print(f'Server utilization: {result["server_utilization"]}')
-    print(f'Time simulation ended: {result["total_time"]}')
-    print()
-    return result
+def report(results_in_time, model):
+    results_in_time["avg_delay_in_queue"][model["num_customers_delayed"]] = (
+        model["total_of_delays"] / model["num_customers_delayed"]
+    )
+    results_in_time["avg_num_in_queue"][model["time"]] = (
+        model["area_num_in_queue"] / model["time"]
+    )
+    results_in_time["server_utilization"][model["time"]] = (
+        model["area_server_status"] / model["time"]
+    )
+    results_in_time["total_time"] = model["time"]

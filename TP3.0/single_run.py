@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from processes import arrive, depart, initialize, report, timing, update_time_stats
+from operator import itemgetter
 
 
 def run_queue_simulation(config):
     # Initialize Run
-    model = initialize(config)
+    model, results_time = itemgetter("model", "results_time")(initialize(config))
     # Run Information
     print("Single-server queueing system (M/M/1)")
     print("Mean interarrival time:", model["mean_interarrival"], "minutes")
@@ -23,6 +24,6 @@ def run_queue_simulation(config):
             arrive(model)
         elif next_event_type == "departure":
             depart(model)
-    # Invoke the report generator and end the simulation
-    result = report(model)
-    return result
+        # Invoke the report generator and end the simulation
+        report(results_time, model)
+    return results_time

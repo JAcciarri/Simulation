@@ -42,7 +42,7 @@ if __name__ == "__main__":
     for i in range(n_runs):
         print("\nModel " + str(i + 1) + ":")
         result = run_queue_simulation(config)
-        results.append(result)
+        results.append(result["avg_delay_in_queue"])
         # Other Runs with other configs...
 
     print((i + 1), "iterations results:", results)
