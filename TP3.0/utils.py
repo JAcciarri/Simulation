@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import numpy as np
 
 
@@ -7,6 +9,7 @@ def exponential_generator(mean):
     return -mean * np.log(random_uniform_num)
 
 
+# Expected Performance Measures
 def get_expected_values(config):
     lmbda = config["arrival_rate"]
     mu = config["service_rate"]
@@ -18,8 +21,4 @@ def get_expected_values(config):
     Lq = (Phi ** 2) / (1 - Phi)
     Wq = Lq / lmbda
 
-    return {
-        "Phi": Phi,
-        "Wq": Wq,
-        "Lq": Lq,
-    }
+    return {"Phi": Phi, "Wq": Wq, "Lq": Lq}

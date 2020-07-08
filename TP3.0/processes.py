@@ -8,30 +8,34 @@ from queue import Queue
 def initialize(config):
     return {
         "model": {
-            # Initial parameters
+            # Config parameters
             "mean_interarrival": 1 / config["arrival_rate"],
             "mean_service": 1 / config["service_rate"],
             "num_delays_required": config["num_delays_required"],
+            # Simulation clock
+            "time": 0.0,
+            # Queue
+            "time_arrival_queue": Queue(maxsize=0),
             # Statistical counters
             "num_customers_delayed": 0,
             "area_num_in_queue": 0.0,
             "area_server_status": 0.0,
             "total_of_delays": 0.0,
+            # State variables
             "num_in_queue": 0,
             "server_busy": False,
-            "time": 0.0,  # Simulation Clock
-            "time_arrival_queue": Queue(maxsize=0),
             "time_last_event": 0.0,
+            # Event list
             "event_list": {
                 "arrival": exponential_generator(1 / config["arrival_rate"]),
-                "departure": float("inf"),
+                "departure": float("inf")
             },
         },
         "results_time": {
             "avg_delay_in_queue": {},
             "avg_num_in_queue": {},
             "server_utilization": {},
-            "total_time": 0,
+            "total_time": 0
         },
     }
 
@@ -55,18 +59,14 @@ def update_time_stats(model):
 
 # Arrival Event
 def arrive(model):
-    model["event_list"]["arrival"] = model["time"] + exponential_generator(
-        model["mean_interarrival"]
-    )
+    model["event_list"]["arrival"] = model["time"] + exponential_generator(model["mean_interarrival"])
     if model["server_busy"]:
         model["num_in_queue"] += 1
         model["time_arrival_queue"].put(model["time"])
     else:
         model["num_customers_delayed"] += 1
         model["server_busy"] = True
-        model["event_list"]["departure"] = model["time"] + exponential_generator(
-            model["mean_service"]
-        )
+        model["event_list"]["departure"] = model["time"] + exponential_generator(model["mean_service"])
 
 
 # Departure Event
@@ -79,9 +79,7 @@ def depart(model):
         delay = model["time"] - model["time_arrival_queue"].get()
         model["total_of_delays"] += delay
         model["num_customers_delayed"] += 1
-        model["event_list"]["departure"] = model["time"] + exponential_generator(
-            model["mean_service"]
-        )
+        model["event_list"]["departure"] = model["time"] + exponential_generator(model["mean_service"])
 
 
 # Report Generator
@@ -89,10 +87,6 @@ def report(results_in_time, model):
     results_in_time["avg_delay_in_queue"][model["num_customers_delayed"]] = (
         model["total_of_delays"] / model["num_customers_delayed"]
     )
-    results_in_time["avg_num_in_queue"][model["time"]] = (
-        model["area_num_in_queue"] / model["time"]
-    )
-    results_in_time["server_utilization"][model["time"]] = (
-        model["area_server_status"] / model["time"]
-    )
+    results_in_time["avg_num_in_queue"][model["time"]] = model["area_num_in_queue"] / model["time"]
+    results_in_time["server_utilization"][model["time"]] = model["area_server_status"] / model["time"]
     results_in_time["total_time"] = model["time"]

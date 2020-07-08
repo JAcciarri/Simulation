@@ -21,15 +21,18 @@ Python Libraries/Modules Used:
 Other Files:
     - single_run:  Execution for every model configuration
     - processes:   Queuing model processes and random generator
+    - utils:       Useful functions modularized in this file
     - plots:       Plotting functions with optional automatic save
 """
 
 from single_run import run_queue_simulation
-from graphs import line_plot_stats
+from plots import line_plot_stats
 from utils import get_expected_values
+
 
 # General Configuration
 n_runs = 10
+save = {"mode": False, "route": "graphs/", "total": n_runs} # If mode is False, the graphs won't be saved
 
 # Model Parameters Definition
 results = []
@@ -63,15 +66,16 @@ configs = [
 ]
 current_config = configs[3]
 
+
 # Main
 if __name__ == "__main__":
     for i in range(n_runs):
         print("\nModel " + str(i + 1) + ":")
         result = run_queue_simulation(current_config)
         results.append(result)
-        expected = get_expected_values(current_config)
         # Other Runs with other configs...
+    expected = get_expected_values(current_config)
 
     # print((i + 1), "iterations results:", results)
     # Graphs with results...
-    line_plot_stats(results, expected)
+    line_plot_stats(results, expected, save)
