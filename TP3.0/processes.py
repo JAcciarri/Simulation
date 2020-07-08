@@ -1,13 +1,7 @@
 # -*- coding: utf-8 -*-
 
-import numpy as np
+from utils import exponential_generator
 from queue import Queue
-
-
-# Exponential Random Numbers Generator
-def exponential_generator(mean):
-    random_uniform_num = np.random.uniform()
-    return -mean * np.log(random_uniform_num)
 
 
 # Model Initialization

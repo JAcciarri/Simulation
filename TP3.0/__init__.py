@@ -26,6 +26,7 @@ Other Files:
 
 from single_run import run_queue_simulation
 from graphs import line_plot_stats
+from utils import get_expected_values
 
 # General Configuration
 n_runs = 10
@@ -44,8 +45,9 @@ if __name__ == "__main__":
         print("\nModel " + str(i + 1) + ":")
         result = run_queue_simulation(config)
         results.append(result)
+        expected = get_expected_values(config)
         # Other Runs with other configs...
 
     # print((i + 1), "iterations results:", results)
     # Graphs with results...
-    line_plot_stats(results)
+    line_plot_stats(results, expected)
