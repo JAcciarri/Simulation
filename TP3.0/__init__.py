@@ -65,9 +65,9 @@ configs = [
 if __name__ == "__main__":
     for i in range(n_runs):
         print("\nModel " + str(i + 1) + ":")
-        result = run_queue_simulation(configs[0])
+        result = run_queue_simulation(configs[3])
         results.append(result)
-        expected = get_expected_values(configs[0])
+        expected = get_expected_values(configs[3])
         # Other Runs with other configs...
 
     # print((i + 1), "iterations results:", results)

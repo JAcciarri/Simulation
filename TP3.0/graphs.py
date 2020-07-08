@@ -11,7 +11,8 @@ def plot_sector(
     for measures in measures_from_multiple_runs:
         x, y = zip(*measures.items())
         ax.plot(x, y)
-    ax.axhline(expected_value, color="red", linestyle="--")
+    if expected_value is not None:
+        ax.axhline(expected_value, color="red", linestyle="--")
 
 
 def line_plot_stats(results, expected):

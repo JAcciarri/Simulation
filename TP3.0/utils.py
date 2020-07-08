@@ -11,6 +11,9 @@ def get_expected_values(config):
     lmbda = config["arrival_rate"]
     mu = config["service_rate"]
 
+    if lmbda >= mu:
+        return {"Phi": 1, "Wq": None, "Lq": None}
+
     Phi = lmbda / mu
     Lq = (Phi ** 2) / (1 - Phi)
     Wq = Lq / lmbda
