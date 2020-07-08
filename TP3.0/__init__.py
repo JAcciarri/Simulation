@@ -34,10 +34,10 @@ n_runs = 10
 # Model Parameters Definition
 results = []
 config = {
-    "mean_interarrival": 1.0,
-    "mean_service": 0.5,
+    "arrival_rate": 1,
+    "service_rate": 2,
     "num_delays_required": 1000,
-}
+}  # Arrival Rate = 0.5 * Service Rate
 
 # Main
 if __name__ == "__main__":

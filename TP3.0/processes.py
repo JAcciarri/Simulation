@@ -9,8 +9,8 @@ def initialize(config):
     return {
         "model": {
             # Initial parameters
-            "mean_interarrival": config["mean_interarrival"],
-            "mean_service": config["mean_service"],
+            "mean_interarrival": 1 / config["arrival_rate"],
+            "mean_service": 1 / config["service_rate"],
             "num_delays_required": config["num_delays_required"],
             # Statistical counters
             "num_customers_delayed": 0,
@@ -23,7 +23,7 @@ def initialize(config):
             "time_arrival_queue": Queue(maxsize=0),
             "time_last_event": 0.0,
             "event_list": {
-                "arrival": exponential_generator(config["mean_interarrival"]),
+                "arrival": exponential_generator(1 / config["arrival_rate"]),
                 "departure": float("inf"),
             },
         },

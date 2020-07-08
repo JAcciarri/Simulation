@@ -8,8 +8,8 @@ def exponential_generator(mean):
 
 
 def get_expected_values(config):
-    lmbda = 1 / config["mean_interarrival"]
-    mu = 1 / config["mean_service"]
+    lmbda = config["arrival_rate"]
+    mu = config["service_rate"]
 
     Phi = lmbda / mu
     Lq = (Phi ** 2) / (1 - Phi)
