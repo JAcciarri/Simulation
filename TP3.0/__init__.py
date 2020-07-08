@@ -31,7 +31,7 @@ from utils import get_expected_values
 
 
 # General Configuration
-n_runs = 10
+n_runs = 10 # Iterations
 save = {"mode": False, "route": "graphs/", "total": n_runs} # If mode is False, the graphs won't be saved
 
 # Model Parameters Definition
