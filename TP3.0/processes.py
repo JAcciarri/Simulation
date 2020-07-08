@@ -67,7 +67,6 @@ def arrive(model):
     if model["server_busy"]:
         model["num_in_queue"] += 1
         model["time_arrival_queue"].put(model["time"])
-        print(model["time_arrival_queue"].qsize(), end=", ")
     else:
         model["num_customers_delayed"] += 1
         model["server_busy"] = True

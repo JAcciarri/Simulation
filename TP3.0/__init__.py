@@ -25,6 +25,7 @@ Other Files:
 """
 
 from single_run import run_queue_simulation
+from graphs import line_plot_stats
 
 # General Configuration
 n_runs = 10
@@ -42,8 +43,9 @@ if __name__ == "__main__":
     for i in range(n_runs):
         print("\nModel " + str(i + 1) + ":")
         result = run_queue_simulation(config)
-        results.append(result["avg_delay_in_queue"])
+        results.append(result)
         # Other Runs with other configs...
 
-    print((i + 1), "iterations results:", results)
+    # print((i + 1), "iterations results:", results)
     # Graphs with results...
+    line_plot_stats(results)
