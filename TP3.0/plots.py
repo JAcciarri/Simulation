@@ -46,7 +46,7 @@ def plot_one(measures_from_multiple_runs, expected_value, title, x_label, y_labe
 
 
 # Plot for bar graphs
-def plot_bar(results, expected, title, x_label, y_label, save, name):
+def plot_bar(results_measures, expected, title, x_label, y_label, save, name):
     # General Config
     fig = plt.figure()
     fig.canvas.set_window_title(title)
@@ -58,9 +58,7 @@ def plot_bar(results, expected, title, x_label, y_label, save, name):
     expected_pn_shortened = expected["Pn"][:20]
 
     # Filtering only 0 to 20 customers in queue probability (Simulation Values)
-    average_observed_pn = list(
-        map(np.mean, zip(*[result["n_clients_in_queue_probability_array"] for result in results]))
-    )[:20]
+    average_observed_pn = list(map(np.mean, zip(*results_measures)))[:20]
 
     # Bars Graphs for Comparison
     plt.bar(np.arange(len(expected_pn_shortened)), expected_pn_shortened, width=0.6, label="Expected values")
@@ -140,11 +138,11 @@ def plot_results(results, expected, save):
 
     # N customers in queue probability
     plot_bar(
-        results=results,
+        [result["n_clients_in_queue_probability_array"] for result in results],
         expected=expected,
         title="N customers in queue probability",
         x_label="N customers",
-        y_label="Probability",
+        y_label="P(n)",
         save=save,
         name="n_curstomers_in_queue_probability",
     )

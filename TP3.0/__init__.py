@@ -96,4 +96,4 @@ if __name__ == "__main__":
     values_comparison(results, expected)
 
     # Plot all the run's results (comparison with analytic values)
-    # plot_results(results, expected, save)
+    plot_results(results, expected, save)

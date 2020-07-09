@@ -10,6 +10,7 @@ from processes import (
     final_report,
 )
 from operator import itemgetter
+import numpy as np
 
 
 def run_queue_simulation(config, first):
@@ -53,8 +54,19 @@ def values_comparison(results, expected):
     print("L  (Average quantity of costumers in the system):", expected["L"])
     print("W  (Average delay time in the system):", expected["W"])
     print("Pn (N customers in queue probability), (0 ≤ N < 20):")
-    print(expected["Pn"][:20])
+    print(np.round(np.array(expected["Pn"][:20]), 6))
 
     print("\nSimulation Performance Measures")
-    print("ρ (server utilization):", "[Under Construction]")
+    print("ρ  (Server utilization):",
+        np.round(np.mean([list(result["server_utilization"].values())[-1] for result in results]), 6))
+    print("Lq (Average quantity of costumers in queue):",
+        np.round(np.mean([list(result["avg_num_in_queue"].values())[-1] for result in results]), 6))
+    print("Wq (Average delay time in queue):",
+        np.round(np.mean([list(result["avg_delay_in_queue"].values())[-1] for result in results]), 6))
+    print("L  (Average quantity of costumers in the system):",
+        np.round(np.mean([list(result["avg_num_in_system"].values())[-1] for result in results]), 6))
+    print("W  (Average delay time in the system):",
+        np.round(np.mean([list(result["avg_delay_in_system"].values())[-1] for result in results]), 6))
+    print("Pn (N customers in queue probability), (0 ≤ N < 20):")
+    print(np.round(np.mean([result["n_clients_in_queue_probability_array"][:20] for result in results], axis=0), 6))
     print()
