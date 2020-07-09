@@ -13,25 +13,31 @@ def save_plot(route, name):
         print(name + " has NOT been saved because a problem ocurred")
 
 
-# Plot every individual graph
+# Plot for line graphs
 def plot_one(measures_from_multiple_runs, expected_value, title, x_label, y_label, save, name):
+    # General Config
     fig = plt.figure()
     fig.canvas.set_window_title(title)
     plt.title(title)
-    for measures in measures_from_multiple_runs:
-        x, y = zip(*measures.items())
-        plt.plot(x, y)
     plt.xlabel(x_label)
     plt.ylabel(y_label)
 
+    # Plot every run simultaneously
+    for measures in measures_from_multiple_runs:
+        x, y = zip(*measures.items())
+        plt.plot(x, y)
+
+    # Analytic expected value (if it is possible)
     if expected_value is not None:
-        plt.axhline(expected_value, color="red", linestyle="--", label="expected value")
+        plt.axhline(expected_value, color="red", linestyle="--", label="Expected value")
         plt.legend()
 
+    # Details Config
     plt.tight_layout()
     plt.margins(0.02)
     plt.grid()
 
+    # Autosave
     if save["mode"]:
         route = save["route"]
         file_name = "graph_" + str(save["runs"]) + "runs_" + str(save["delays"]) + "delays_"
@@ -39,16 +45,40 @@ def plot_one(measures_from_multiple_runs, expected_value, title, x_label, y_labe
         save_plot(route, file_name)
 
 
-def plot_bar(expected, results):
+# Plot for bar graphs
+def plot_bar(results, expected, title, x_label, y_label, save, name):
+    # General Config
     fig = plt.figure()
-    fig.canvas.set_window_title("Probabilidad de N clientes en cola ")
+    fig.canvas.set_window_title(title)
+    plt.title(title)
+    plt.xlabel(x_label)
+    plt.ylabel(y_label)
+    
+    # Filtering only 0 to 20 customers in queue probability (Analytic Values)
     expected_pn_shortened = expected["Pn"][:20]
-    plt.bar(np.arange(len(expected_pn_shortened)), expected_pn_shortened, width=0.05)
 
+    # Filtering only 0 to 20 customers in queue probability (Simulation Values)
     average_observed_pn = list(
         map(np.mean, zip(*[result["n_clients_in_queue_probability_array"] for result in results]))
     )[:20]
-    plt.bar(np.arange(len(average_observed_pn)), average_observed_pn, width=0.05)
+
+    # Bars Graphs for Comparison
+    plt.bar(np.arange(len(expected_pn_shortened)), expected_pn_shortened, width=0.6, label="Expected values")
+    plt.bar(np.arange(len(average_observed_pn)), average_observed_pn, width=0.4, label="Observed values")
+    plt.xticks(np.arange(0, len(average_observed_pn)+1, 1.0))
+
+    # Details Config
+    plt.tight_layout()
+    plt.margins(0.02)
+    plt.grid()
+    plt.legend()
+
+    # Autosave
+    if save["mode"]:
+        route = save["route"]
+        file_name = "graph_" + str(save["runs"]) + "runs_" + str(save["delays"]) + "delays_"
+        file_name += "config" + str(save["config"]) + "_" + name
+        save_plot(route, file_name)
 
 
 # Specification of all the graphs to plot
@@ -108,7 +138,16 @@ def plot_results(results, expected, save):
         name="server_utilization",
     )
 
-    plot_bar(expected, results)
+    # N customers in queue probability
+    plot_bar(
+        results=results,
+        expected=expected,
+        title="N customers in queue probability",
+        x_label="N customers",
+        y_label="Probability",
+        save=save,
+        name="n_curstomers_in_queue_probability",
+    )
 
     # Show all the plots
     plt.show()
