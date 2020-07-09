@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from processes import (
-    arrive,
-    depart,
+    event_report,
     initialize,
-    intermediate_report,
     timing,
     update_time_stats,
+    arrive,
+    depart,
     final_report,
 )
 from operator import itemgetter
@@ -33,6 +33,28 @@ def run_queue_simulation(config, first):
             arrive(model)
         elif next_event_type == "departure":
             depart(model)
-        # Invoke the report generator and end the simulation
-        intermediate_report(results_time, model)
+        # Invoke the partial report generator
+        event_report(results_time, model)
+    # Invoke the final report generator and end the current run
     return final_report(results_time, model)
+
+
+# Comparison between analytic and simulation results' values
+def values_comparison(results, expected):
+    print("\nRESULTS")
+    print("\nModel Parameters")
+    print("λ  (Arrival rate):", expected["Lambda"])
+    print("μ  (Service rate):", expected["Mu"])
+
+    print("\nAnalytic Performance Measures")
+    print("ρ  (Server utilization):", expected["Rho"])
+    print("Lq (Average quantity of costumers in queue):", expected["Lq"])
+    print("Wq (Average delay time in queue):", expected["Wq"])
+    print("L  (Average quantity of costumers in the system):", expected["L"])
+    print("W  (Average delay time in the system):", expected["W"])
+    print("Pn (N customers in queue probability), (0 ≤ N < 20):")
+    print(expected["Pn"][:20])
+
+    print("\nSimulation Performance Measures")
+    print("ρ (server utilization):", "[Under Construction]")
+    print()

@@ -25,7 +25,7 @@ Other Files:
     - plots:       Plotting functions with optional automatic save
 """
 
-from single_run import run_queue_simulation
+from single_run import run_queue_simulation, values_comparison
 from plots import plot_results
 from utils import get_expected_values
 
@@ -77,7 +77,8 @@ current_config = configs[selected_config]
 # Main
 if __name__ == "__main__":
     print("\nQUEUING SYSTEM\n")
-    print("\nModel:")
+    print("Model (" + str(n_runs) + " runs):")
+
     # First Run: Also Prints Model Info
     result_time = run_queue_simulation(current_config, first=True)
     results.append(result_time)
@@ -87,7 +88,12 @@ if __name__ == "__main__":
         results.append(result_time)
         print("Run " + str(i + 1) + " of " + str(n_runs) + " finished")
     print()
+
     # Expected analytic values
     expected = get_expected_values(current_config)
+
+    # Show Analytic vs Simulated Results in Console
+    values_comparison(results, expected)
+
     # Plot all the run's results (comparison with analytic values)
-    plot_results(results, expected, save)
+    # plot_results(results, expected, save)

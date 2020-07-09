@@ -89,8 +89,8 @@ def depart(model):
         )
 
 
-# Report Generator
-def intermediate_report(results_time, model):
+# Partial Report Generator
+def event_report(results_time, model):
     # Average time in queue
     current_avg_delay_in_queue = model["total_of_delays"] / model["num_customers_delayed"]
     results_time["avg_delay_in_queue"][model["num_customers_delayed"]] = current_avg_delay_in_queue
@@ -116,6 +116,7 @@ def intermediate_report(results_time, model):
     results_time["clients_in_queue_absolute_freq"][model["num_in_queue"]] += 1
 
 
+# Final Report Generator
 def final_report(results_time, model):
     accumulate_absolute_frequencies = sum(results_time["clients_in_queue_absolute_freq"])
     n_clients_in_queue_probability_array = [
