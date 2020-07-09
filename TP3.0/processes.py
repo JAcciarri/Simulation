@@ -19,7 +19,6 @@ def initialize(config):
             # Statistical counters
             "num_customers_delayed": 0,
             "area_num_in_queue": 0.0,
-            "area_num_in_system": 0.0,
             "area_server_status": 0.0,
             "total_of_delays": 0.0,
             # State variables
@@ -55,7 +54,6 @@ def timing(event_list):
 def update_time_stats(model):
     time_since_last_event = model["time"] - model["time_last_event"]
     model["area_num_in_queue"] += time_since_last_event * model["num_in_queue"]
-    model["area_num_in_system"] += (time_since_last_event * model["num_in_queue"] + int(model["server_busy"]))
     model["area_server_status"] += time_since_last_event * int(model["server_busy"])
     model["time_last_event"] = model["time"]
 
@@ -100,7 +98,9 @@ def report(results_time, model):
     )
 
     # Average Average quantity of costumers in the system
-    results_time["avg_num_in_system"][model["time"]] = model["area_num_in_system"] / model["time"]
+    results_time["avg_num_in_system"][model["time"]] = (
+        (model["area_num_in_queue"] / model["time"]) + (model["mean_service"])
+    )
 
     # Server utilization
     results_time["server_utilization"][model["time"]] = model["area_server_status"] / model["time"]

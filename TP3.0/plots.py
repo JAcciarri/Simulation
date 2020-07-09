@@ -33,8 +33,9 @@ def plot_one(measures_from_multiple_runs, expected_value, title, x_label, y_labe
 
     if save["mode"]:
         route = save["route"]
-        name = "graph_" + str(save["total"]) + "runs_config" + str(save["config"]) + "_" + name
-        save_plot(route, name)
+        file_name = "graph_" + str(save["runs"]) + "runs_" + str(save["delays"]) + "delays_"
+        file_name += "config" + str(save["config"]) + "_" + name
+        save_plot(route, file_name)
 
 
 # Specification of all the graphs to plot

@@ -4,14 +4,15 @@ from processes import arrive, depart, initialize, report, timing, update_time_st
 from operator import itemgetter
 
 
-def run_queue_simulation(config):
+def run_queue_simulation(config, first):
     # Initialize Run
     model, results_time = itemgetter("model", "results_time")(initialize(config))
-    # Run Information
-    print("Single-server queueing system (M/M/1)")
-    print("Mean interarrival time:", model["mean_interarrival"], "minutes")
-    print("Mean service time:", model["mean_service"], "minutes")
-    print("Number of customers:", model["num_delays_required"])
+    if (first):
+        # Run Information
+        print("Single-server queuing system (M/M/1)")
+        print("Mean interarrival time:", round(model["mean_interarrival"], 6), "minutes")
+        print("Mean service time:", round(model["mean_service"], 6), "minutes")
+        print("Number of customers:", round(model["num_delays_required"], 6), "\n")
 
     # Run the simulation while more delays are still needed
     while model["num_customers_delayed"] < model["num_delays_required"]:

@@ -31,13 +31,19 @@ from utils import get_expected_values
 
 
 # General Parameters
-n_runs = 10 # Iterations
-selected_config = 2 # Configuration option selected from configs list
-save = {"mode": False, "route": "graphs/", "total": n_runs, "config": selected_config} # Mode True: Autosave Graphs
+n_runs = 10          # Iterations
+n_delays = 10000     # Max Customers Quantity
+selected_config = 2  # Configuration option selected from configs list
+save = {
+    "mode": False,   # mode: True = Autosave Graphs
+    "route": "graphs/",
+    "runs": n_runs,
+    "delays": n_delays,
+    "config": selected_config
+}
 
 # Different Configurations for the Model
 results = []
-n_delays = 1000
 configs = [
     {
         "arrival_rate": 0.5,
@@ -70,11 +76,17 @@ current_config = configs[selected_config]
 
 # Main
 if __name__ == "__main__":
+    print("\nQUEUING SYSTEM\n")
+    print("\nModel:")
+    # First Run: Also Prints Model Info
+    result_time = run_queue_simulation(current_config, first=True)
+    results.append(result_time)
     for i in range(n_runs):
-        print("\nModel "+ str(i + 1) + ":")
         # Result of every run
-        result_time = run_queue_simulation(current_config)
+        result_time = run_queue_simulation(current_config, first=False)
         results.append(result_time)
+        print("Run " + str(i + 1) + " of " + str(n_runs) + " finished")
+    print()
     # Expected analytic values
     expected = get_expected_values(current_config)
     # Plot all the run's results (comparison with analytic values)
