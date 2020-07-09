@@ -36,9 +36,8 @@ def initialize(config):
             "avg_num_in_queue": {},
             "avg_delay_in_system": {},
             "avg_num_in_system": {},
-            "server_utilization": {},
-            "clients_in_queue_absolute_freq": [1]
-            + [0.0 for n in range(1, config["num_delays_required"])],
+            "server_utilization": {}, 
+            "clients_in_queue_absolute_freq": [0.0 for n in range(config["num_delays_required"])],
         },
     }
 
