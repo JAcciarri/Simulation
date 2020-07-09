@@ -31,15 +31,15 @@ from utils import get_expected_values
 
 
 # General Parameters
-n_runs = 10          # Iterations
-n_delays = 10000     # Max Customers Quantity
-selected_config = 2  # Configuration option selected from configs list
+n_runs = 10  # Iterations
+n_delays = 10000  # Max Customers Quantity
+selected_config = 4  # Configuration option selected from configs list
 save = {
-    "mode": False,   # mode: True = Autosave Graphs
+    "mode": False,  # mode: True = Autosave Graphs
     "route": "graphs/",
     "runs": n_runs,
     "delays": n_delays,
-    "config": selected_config
+    "config": selected_config,
 }
 
 # Different Configurations for the Model

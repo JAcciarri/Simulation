@@ -26,7 +26,10 @@ def initialize(config):
             "server_busy": False,
             "time_last_event": 0.0,
             # Event list
-            "event_list": {"arrival": exponential_generator(1 / config["arrival_rate"]), "departure": float("inf")},
+            "event_list": {
+                "arrival": exponential_generator(1 / config["arrival_rate"]),
+                "departure": float("inf"),
+            },
         },
         "results_time": {
             "avg_delay_in_queue": {},
@@ -34,8 +37,10 @@ def initialize(config):
             "avg_delay_in_system": {},
             "avg_num_in_system": {},
             "server_utilization": {},
-            "clients_in_queue_probabilities": {0: 1.0},
-            "total_time": 0,
+            "clients_in_queue_absolute_freq": {
+                **{0: 1},
+                **{x: 0.0 for x in range(1, config["num_delays_required"])},
+            },
         },
     }
 
@@ -58,14 +63,18 @@ def update_time_stats(model):
 
 # Arrival Event
 def arrive(model):
-    model["event_list"]["arrival"] = model["time"] + exponential_generator(model["mean_interarrival"])
+    model["event_list"]["arrival"] = model["time"] + exponential_generator(
+        model["mean_interarrival"]
+    )
     if model["server_busy"]:
         model["num_in_queue"] += 1
         model["time_arrival_queue"].put(model["time"])
     else:
         model["num_customers_delayed"] += 1
         model["server_busy"] = True
-        model["event_list"]["departure"] = model["time"] + exponential_generator(model["mean_service"])
+        model["event_list"]["departure"] = model["time"] + exponential_generator(
+            model["mean_service"]
+        )
 
 
 # Departure Event
@@ -78,11 +87,13 @@ def depart(model):
         delay = model["time"] - model["time_arrival_queue"].get()
         model["total_of_delays"] += delay
         model["num_customers_delayed"] += 1
-        model["event_list"]["departure"] = model["time"] + exponential_generator(model["mean_service"])
+        model["event_list"]["departure"] = model["time"] + exponential_generator(
+            model["mean_service"]
+        )
 
 
 # Report Generator
-def report(results_time, model):
+def intermediate_report(results_time, model):
     # Average time in queue
     current_avg_delay_in_queue = model["total_of_delays"] / model["num_customers_delayed"]
     results_time["avg_delay_in_queue"][model["num_customers_delayed"]] = current_avg_delay_in_queue
@@ -92,15 +103,39 @@ def report(results_time, model):
 
     # Average time in the system
     current_avg_delay_in_system = current_avg_delay_in_queue + model["mean_service"]
-    results_time["avg_delay_in_system"][model["num_customers_delayed"]] = current_avg_delay_in_system
+    results_time["avg_delay_in_system"][
+        model["num_customers_delayed"]
+    ] = current_avg_delay_in_system
 
     # Average Average quantity of costumers in the system
     current_avg_num_in_system = (1 / model["mean_interarrival"]) * current_avg_delay_in_system
-    results_time["avg_num_in_system"][model["time"]] =current_avg_num_in_system
+    results_time["avg_num_in_system"][model["time"]] = current_avg_num_in_system
 
     # Server utilization
     current_server_utilization = model["area_server_status"] / model["time"]
     results_time["server_utilization"][model["time"]] = current_server_utilization
 
-    # Total time
-    results_time["total_time"] = model["time"]
+    # N Clients in queue probabilities
+    results_time["clients_in_queue_absolute_freq"][model["num_in_queue"]] += 1
+
+
+def final_report(results_time, model):
+    accumulate_absolute_frequencies = sum(results_time["clients_in_queue_absolute_freq"].values())
+    n_clients_in_queue_probability_array = {
+        k: v / accumulate_absolute_frequencies
+        for k, v in results_time["clients_in_queue_absolute_freq"].items()
+    }
+    client_getting_service_probability = sum(n_clients_in_queue_probability_array.values())
+    client_not_getting_service_probability = 1 - round(client_getting_service_probability, 12)
+
+    return {
+        "avg_delay_in_queue": results_time["avg_delay_in_queue"],
+        "avg_delay_in_system": results_time["avg_delay_in_system"],
+        "avg_num_in_queue": results_time["avg_num_in_queue"],
+        "avg_num_in_system": results_time["avg_num_in_system"],
+        "server_utilization": results_time["server_utilization"],
+        "n_clients_in_queue_probability_array": n_clients_in_queue_probability_array,
+        "client_getting_service_probability": client_getting_service_probability,
+        "client_not_getting_service_probability": client_not_getting_service_probability,
+        "total_time": model["time"],
+    }
