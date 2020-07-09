@@ -19,6 +19,7 @@ def initialize(config):
             # Statistical counters
             "num_customers_delayed": 0,
             "area_num_in_queue": 0.0,
+            "area_num_in_system": 0.0,
             "area_server_status": 0.0,
             "total_of_delays": 0.0,
             # State variables
@@ -32,9 +33,11 @@ def initialize(config):
             },
         },
         "results_time": {
-            "avg_delay_in_queue": {},
-            "avg_num_in_queue": {},
-            "server_utilization": {},
+            "avg_delay_in_queue":   {},
+            "avg_num_in_queue":     {},
+            "avg_delay_in_system":  {},
+            "avg_num_in_system":    {},
+            "server_utilization":   {},
             "total_time": 0
         },
     }
@@ -51,10 +54,10 @@ def timing(event_list):
 # Update time-average statistical accumulators
 def update_time_stats(model):
     time_since_last_event = model["time"] - model["time_last_event"]
-    model["time_last_event"] = model["time"]
-
     model["area_num_in_queue"] += time_since_last_event * model["num_in_queue"]
+    model["area_num_in_system"] += (time_since_last_event * model["num_in_queue"] + int(model["server_busy"]))
     model["area_server_status"] += time_since_last_event * int(model["server_busy"])
+    model["time_last_event"] = model["time"]
 
 
 # Arrival Event
@@ -83,10 +86,24 @@ def depart(model):
 
 
 # Report Generator
-def report(results_in_time, model):
-    results_in_time["avg_delay_in_queue"][model["num_customers_delayed"]] = (
+def report(results_time, model):
+    # Average time in queue
+    results_time["avg_delay_in_queue"][model["num_customers_delayed"]] = (
         model["total_of_delays"] / model["num_customers_delayed"]
     )
-    results_in_time["avg_num_in_queue"][model["time"]] = model["area_num_in_queue"] / model["time"]
-    results_in_time["server_utilization"][model["time"]] = model["area_server_status"] / model["time"]
-    results_in_time["total_time"] = model["time"]
+    # Average quantity of costumers in queue
+    results_time["avg_num_in_queue"][model["time"]] = model["area_num_in_queue"] / model["time"] 
+
+    # Average time in the system
+    results_time["avg_delay_in_system"][model["num_customers_delayed"]] = (
+        (model["total_of_delays"] / model["num_customers_delayed"]) + (model["mean_interarrival"])
+    )
+
+    # Average Average quantity of costumers in the system
+    results_time["avg_num_in_system"][model["time"]] = model["area_num_in_system"] / model["time"]
+
+    # Server utilization
+    results_time["server_utilization"][model["time"]] = model["area_server_status"] / model["time"]
+
+    # Total time
+    results_time["total_time"] = model["time"]

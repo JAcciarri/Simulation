@@ -26,15 +26,16 @@ Other Files:
 """
 
 from single_run import run_queue_simulation
-from plots import line_plot_stats
+from plots import plot_results
 from utils import get_expected_values
 
 
-# General Configuration
+# General Parameters
 n_runs = 10 # Iterations
-save = {"mode": False, "route": "graphs/", "total": n_runs} # If mode is False, the graphs won't be saved
+selected_config = 2 # Configuration option selected from configs list
+save = {"mode": False, "route": "graphs/", "total": n_runs, "config": selected_config} # Mode True: Autosave Graphs
 
-# Model Parameters Definition
+# Different Configurations for the Model
 results = []
 n_delays = 1000
 configs = [
@@ -64,18 +65,17 @@ configs = [
         "num_delays_required": n_delays,
     },  # Arrival Rate = 1.25 * Service Rate
 ]
-current_config = configs[3]
+current_config = configs[selected_config]
 
 
 # Main
 if __name__ == "__main__":
     for i in range(n_runs):
-        print("\nModel " + str(i + 1) + ":")
-        result = run_queue_simulation(current_config)
-        results.append(result)
-        # Other Runs with other configs...
+        print("\nModel "+ str(i + 1) + ":")
+        # Result of every run
+        result_time = run_queue_simulation(current_config)
+        results.append(result_time)
+    # Expected analytic values
     expected = get_expected_values(current_config)
-
-    # print((i + 1), "iterations results:", results)
-    # Graphs with results...
-    line_plot_stats(results, expected, save)
+    # Plot all the run's results (comparison with analytic values)
+    plot_results(results, expected, save)

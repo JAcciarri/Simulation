@@ -15,10 +15,12 @@ def get_expected_values(config):
     mu = config["service_rate"]
 
     if lmbda >= mu:
-        return {"Phi": 1, "Wq": None, "Lq": None}
+        return {"Rho": 1, "Lq": None, "Wq": None, "L": None, "W": None}
 
-    Phi = lmbda / mu
-    Lq = (Phi ** 2) / (1 - Phi)
-    Wq = Lq / lmbda
+    Rho = lmbda / mu             # Server utilization
+    Lq = (Rho ** 2) / (1 - Rho)  # Average customers' quantity in queue
+    Wq = Lq / lmbda              # Average delay time in queue
+    W = Wq + 1 / lmbda           # Average delay time in the system
+    L = lmbda * W                # Average customers' quantity in the system
 
-    return {"Phi": Phi, "Wq": Wq, "Lq": Lq}
+    return {"Rho": Rho, "Lq": Lq, "Wq": Wq, "L": L, "W": W}
