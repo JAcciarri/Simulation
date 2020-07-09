@@ -37,10 +37,8 @@ def initialize(config):
             "avg_delay_in_system": {},
             "avg_num_in_system": {},
             "server_utilization": {},
-            "clients_in_queue_absolute_freq": {
-                **{0: 1},
-                **{x: 0.0 for x in range(1, config["num_delays_required"])},
-            },
+            "clients_in_queue_absolute_freq": [1]
+            + [0.0 for x in range(1, config["num_delays_required"])],
         },
     }
 
@@ -120,12 +118,11 @@ def intermediate_report(results_time, model):
 
 
 def final_report(results_time, model):
-    accumulate_absolute_frequencies = sum(results_time["clients_in_queue_absolute_freq"].values())
-    n_clients_in_queue_probability_array = {
-        k: v / accumulate_absolute_frequencies
-        for k, v in results_time["clients_in_queue_absolute_freq"].items()
-    }
-    client_getting_service_probability = sum(n_clients_in_queue_probability_array.values())
+    accumulate_absolute_frequencies = sum(results_time["clients_in_queue_absolute_freq"])
+    n_clients_in_queue_probability_array = [
+        x / accumulate_absolute_frequencies for x in results_time["clients_in_queue_absolute_freq"]
+    ]
+    client_getting_service_probability = sum(n_clients_in_queue_probability_array)
     client_not_getting_service_probability = 1 - round(client_getting_service_probability, 12)
 
     return {
