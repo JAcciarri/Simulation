@@ -137,15 +137,16 @@ def plot_results(results, expected, save):
     )
 
     # N customers in queue probability
-    plot_bar(
-        [result["n_clients_in_queue_probability_array"] for result in results],
-        expected=expected,
-        title="N customers in queue probability",
-        x_label="N customers",
-        y_label="P(n)",
-        save=save,
-        name="n_curstomers_in_queue_probability",
-    )
+    if (expected["Lq"] is not None):
+        plot_bar(
+            [result["n_clients_in_queue_probability_array"] for result in results],
+            expected=expected,
+            title="N customers in queue probability",
+            x_label="N customers",
+            y_label="P(n)",
+            save=save,
+            name="n_curstomers_in_queue_probability",
+        )
 
     # Show all the plots
     plt.show()
