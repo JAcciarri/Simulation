@@ -94,12 +94,12 @@ def report(results_time, model):
 
     # Average time in the system
     results_time["avg_delay_in_system"][model["num_customers_delayed"]] = (
-        (model["total_of_delays"] / model["num_customers_delayed"]) + (model["mean_interarrival"])
+        (model["total_of_delays"] / model["num_customers_delayed"]) + (model["mean_service"])
     )
 
     # Average Average quantity of costumers in the system
     results_time["avg_num_in_system"][model["time"]] = (
-        (model["area_num_in_queue"] / model["time"]) + (model["mean_service"])
+        (model["area_num_in_queue"] / model["time"]) + (model["mean_interarrival"])
     )
 
     # Server utilization

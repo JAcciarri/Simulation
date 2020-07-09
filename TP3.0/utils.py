@@ -20,7 +20,7 @@ def get_expected_values(config):
     Rho = lmbda / mu             # Server utilization
     Lq = (Rho ** 2) / (1 - Rho)  # Average customers' quantity in queue
     Wq = Lq / lmbda              # Average delay time in queue
-    W = Wq + 1 / lmbda           # Average delay time in the system
+    W = Wq + 1 / mu           # Average delay time in the system
     L = lmbda * W                # Average customers' quantity in the system
 
     return {"Rho": Rho, "Lq": Lq, "Wq": Wq, "L": L, "W": W}
