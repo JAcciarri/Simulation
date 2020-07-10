@@ -127,14 +127,13 @@ def event_report(results_time, model):
 
 # Final Report Generator
 def final_report(results_time, model):
-    accumulate_absolute_frequencies = (
-        sum(results_time["clients_in_queue_absolute_freq"]) + model["num_without_service"]
-    )
+    accumulate_absolute_frequencies = sum(results_time["clients_in_queue_absolute_freq"])
     n_clients_in_queue_probability_array = [
         n / accumulate_absolute_frequencies for n in results_time["clients_in_queue_absolute_freq"]
     ]
-    client_getting_service_probability = sum(n_clients_in_queue_probability_array)
-    client_not_getting_service_probability = 1 - round(client_getting_service_probability, 12)
+    client_not_getting_service_probability = (
+        model["num_without_service"] / model["num_customers_delayed"]
+    )
 
     return {
         "avg_delay_in_queue": results_time["avg_delay_in_queue"],
@@ -143,7 +142,6 @@ def final_report(results_time, model):
         "avg_num_in_system": results_time["avg_num_in_system"],
         "server_utilization": results_time["server_utilization"],
         "n_clients_in_queue_probability_array": n_clients_in_queue_probability_array,
-        "client_getting_service_probability": client_getting_service_probability,
         "client_not_getting_service_probability": client_not_getting_service_probability,
         "total_time": model["time"],
     }
