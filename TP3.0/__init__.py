@@ -76,25 +76,25 @@ configs = [
         "num_delays_required": n_delays,
     },  # Arrival Rate = 1.25 * Service Rate
     {
-        "arrival_rate": 1,
+        "arrival_rate": 0.5,
         "service_rate": 2,
         "queue_length": 2,
         "num_delays_required": n_delays,
     },  # Arrival Rate = 0.5 * Service Rate && Limited Queue maxsize = 2
     {
-        "arrival_rate": 1,
+        "arrival_rate": 0.5,
         "service_rate": 2,
         "queue_length": 5,
         "num_delays_required": n_delays,
     },  # Arrival Rate = 0.5 * Service Rate && Limited Queue maxsize = 5
     {
-        "arrival_rate": 1,
+        "arrival_rate": 0.5,
         "service_rate": 2,
         "queue_length": 10,
         "num_delays_required": n_delays,
     },  # Arrival Rate = 0.5 * Service Rate && Limited Queue maxsize = 10
     {
-        "arrival_rate": 1,
+        "arrival_rate": 0.5,
         "service_rate": 2,
         "queue_length": 50,
         "num_delays_required": n_delays,

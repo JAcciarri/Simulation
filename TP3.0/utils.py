@@ -23,7 +23,8 @@ def get_expected_values(config):
             "Wq": None,
             "L": None,
             "W": None,
-            "Pn": None
+            "Pn": None,
+            "Pd": None,
         }
 
     Rho = Lambda / Mu  # Server utilization
@@ -34,6 +35,11 @@ def get_expected_values(config):
     Pn = [
         (1 - Rho) * (Rho ** n) for n in range(config["num_delays_required"])
     ]  # N Clients in queue probability array
+    if config["queue_length"] == "inf":
+        queue_length = len(Pn)
+    else:
+        queue_length = config["queue_length"]
+    Pd = 1 - sum(Pn[:queue_length + 1])
 
     return {
         "Lambda": Lambda,
@@ -43,5 +49,6 @@ def get_expected_values(config):
         "Wq": Wq,
         "L": L,
         "W": W,
-        "Pn": Pn
+        "Pn": Pn,
+        "Pd": Pd,
     }

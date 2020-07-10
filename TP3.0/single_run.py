@@ -56,6 +56,7 @@ def values_comparison(results, expected):
         print("W  (Average delay time in the system):", expected["W"])
         print("Pn (N customers in queue probability), (0 ≤ N < 20):")
         print(np.round(np.array(expected["Pn"][:20]), 3))
+        print("Pd (Denial of service probability):", expected["Pd"])
 
         print("\nSimulation Performance Measures")
         print(
@@ -99,7 +100,7 @@ def values_comparison(results, expected):
             )
         )
         print(
-            "Denial of service probability:",
+            "Pd (Denial of service probability):",
             np.round(
                 np.mean([result["client_not_getting_service_probability"] for result in results]), 3
             ),
