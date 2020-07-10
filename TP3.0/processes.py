@@ -7,7 +7,7 @@ from queue import Queue, Full
 # Model Initialization
 def initialize(config):
     if config["queue_length"] == "inf":
-        queue_max_size = 0
+        queue_max_size = float("inf")
     else:
         queue_max_size = config["queue_length"]
 
@@ -20,7 +20,8 @@ def initialize(config):
             # Simulation clock
             "time": 0.0,
             # Queue
-            "time_arrival_queue": Queue(queue_max_size),
+            "queue_length": queue_max_size,
+            "time_arrival_queue": Queue(maxsize=0),
             # Statistical counters
             "num_customers_delayed": 0,
             "area_num_in_queue": 0.0,
@@ -80,11 +81,11 @@ def arrive(model):
         model["mean_interarrival"]
     )
     if model["server_busy"]:
-        try:
+        if model["num_in_queue"] + 1 > model["queue_length"]:
+            model["num_without_service"] += 1
+        else:
             model["time_arrival_queue"].put_nowait(model["time"])
             model["num_in_queue"] += 1
-        except Full:
-            model["num_without_service"] += 1
     else:
         model["num_customers_delayed"] += 1
         model["server_busy"] = True

@@ -66,7 +66,9 @@ def values_comparison(results, expected):
         Wq = np.mean([list(result["avg_delay_in_queue"].values())[-1] for result in results])
         L = np.mean([list(result["avg_num_in_system"].values())[-1] for result in results])
         W = np.mean([list(result["avg_delay_in_system"].values())[-1] for result in results])
-        Pn = np.mean([result["n_clients_in_system_probability_array"][:20] for result in results], axis=0)
+        Pn = np.mean(
+            [result["n_clients_in_system_probability_array"][:20] for result in results], axis=0
+        )
         Pd = np.mean([result["client_not_getting_service_probability"] for result in results])
         # Average Simulation Performance Measures Print
         print("ρ  (Server utilization):", np.round(Rho, 6))
@@ -81,8 +83,9 @@ def values_comparison(results, expected):
         # Expected VS Simulated Comparison (Main Parameters Only)
         print("\nRelation Between Analytics and Simulated Main Values")
         print("ρ  = ", np.round(expected["Rho"] / Rho, 6))
-        print("Lq = ", np.round(expected["Lq"] / Lq, 6))
-        print("Wq = ", np.round(expected["Wq"] / Wq, 6))
+        if Lq != 0:
+            print("Lq = ", np.round(expected["Lq"] / Lq, 6))
+            print("Wq = ", np.round(expected["Wq"] / Wq, 6))
         print("L  = ", np.round(expected["L"] / L, 6))
         print("W  = ", np.round(expected["W"] / W, 6))
         print()
