@@ -33,7 +33,7 @@ from utils import get_expected_values
 # General Parameters
 n_runs = 10  # Iterations
 n_delays = 10000  # Max Customers Quantity
-selected_config = 2  # Configuration option selected from configs list
+selected_config = 1  # Configuration option selected from configs list
 save = {
     "mode": False,  # mode: True = Autosave Graphs
     "route": "graphs/",
@@ -49,25 +49,30 @@ configs = [
         "arrival_rate": 0.5,
         "service_rate": 2,
         "num_delays_required": n_delays,
+        "queue_length": "inf",
     },  # Arrival Rate = 0.25 * Service Rate
     {
         "arrival_rate": 1,
         "service_rate": 2,
+        "queue_length": "inf",
         "num_delays_required": n_delays,
     },  # Arrival Rate = 0.5 * Service Rate
     {
         "arrival_rate": 1.5,
         "service_rate": 2,
+        "queue_length": "inf",
         "num_delays_required": n_delays,
     },  # Arrival Rate = 0.75 * Service Rate
     {
         "arrival_rate": 2,
         "service_rate": 2,
+        "queue_length": "inf",
         "num_delays_required": n_delays,
     },  # Arrival Rate = 1 * Service Rate
     {
         "arrival_rate": 2.5,
         "service_rate": 2,
+        "queue_length": "inf",
         "num_delays_required": n_delays,
     },  # Arrival Rate = 1.25 * Service Rate
 ]

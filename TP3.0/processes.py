@@ -1,11 +1,16 @@
 # -*- coding: utf-8 -*-
 
 from utils import exponential_generator
-from queue import Queue
+from queue import Queue, Full
 
 
 # Model Initialization
 def initialize(config):
+    if config["queue_length"] == "inf":
+        queue_max_size = 0
+    else:
+        queue_max_size = config["queue_length"]
+
     return {
         "model": {
             # Config parameters
@@ -15,7 +20,7 @@ def initialize(config):
             # Simulation clock
             "time": 0.0,
             # Queue
-            "time_arrival_queue": Queue(maxsize=0),
+            "time_arrival_queue": Queue(queue_max_size),
             # Statistical counters
             "num_customers_delayed": 0,
             "area_num_in_queue": 0.0,
@@ -23,6 +28,7 @@ def initialize(config):
             "total_of_delays": 0.0,
             # State variables
             "num_in_queue": 0,
+            "num_without_service": 0,
             "server_busy": False,
             "time_last_event": 0.0,
             # Event list
@@ -36,7 +42,7 @@ def initialize(config):
             "avg_num_in_queue": {},
             "avg_delay_in_system": {},
             "avg_num_in_system": {},
-            "server_utilization": {}, 
+            "server_utilization": {},
             "clients_in_queue_absolute_freq": [0.0 for n in range(config["num_delays_required"])],
         },
     }
@@ -64,8 +70,11 @@ def arrive(model):
         model["mean_interarrival"]
     )
     if model["server_busy"]:
-        model["num_in_queue"] += 1
-        model["time_arrival_queue"].put(model["time"])
+        try:
+            model["time_arrival_queue"].put_nowait(model["time"])
+            model["num_in_queue"] += 1
+        except Full:
+            model["num_without_service"] += 1
     else:
         model["num_customers_delayed"] += 1
         model["server_busy"] = True
@@ -81,7 +90,7 @@ def depart(model):
         model["event_list"]["departure"] = float("inf")
     else:
         model["num_in_queue"] -= 1
-        delay = model["time"] - model["time_arrival_queue"].get()
+        delay = model["time"] - model["time_arrival_queue"].get_nowait()
         model["total_of_delays"] += delay
         model["num_customers_delayed"] += 1
         model["event_list"]["departure"] = model["time"] + exponential_generator(
@@ -118,7 +127,9 @@ def event_report(results_time, model):
 
 # Final Report Generator
 def final_report(results_time, model):
-    accumulate_absolute_frequencies = sum(results_time["clients_in_queue_absolute_freq"])
+    accumulate_absolute_frequencies = (
+        sum(results_time["clients_in_queue_absolute_freq"]) + model["num_without_service"]
+    )
     n_clients_in_queue_probability_array = [
         n / accumulate_absolute_frequencies for n in results_time["clients_in_queue_absolute_freq"]
     ]
