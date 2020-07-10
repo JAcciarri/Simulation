@@ -109,7 +109,7 @@ def plot_results(results, expected, save):
         expected_value=expected["L"],
         title="Average quantity of costumers in the system",
         x_label="Time",
-        y_label="Q(n)",
+        y_label="l(n)",
         save=save,
         name="avg_num_in_the_system",
     )
@@ -120,7 +120,7 @@ def plot_results(results, expected, save):
         expected_value=expected["W"],
         title="Average delay time in the system",
         x_label="Customer number",
-        y_label="D(n)",
+        y_label="w(n)",
         save=save,
         name="avg_delay_time_in_the_system",
     )
@@ -131,7 +131,7 @@ def plot_results(results, expected, save):
         expected_value=expected["Rho"],
         title="Server utilization",
         x_label="Time",
-        y_label="U(n)",
+        y_label="u(n)",
         save=save,
         name="server_utilization",
     )
