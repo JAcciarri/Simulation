@@ -29,6 +29,7 @@ def initialize(config):
             # State variables
             "num_in_queue": 0,
             "clients_in_queue_absolute_freq": [0.0 for n in range(config["num_delays_required"])],
+            "clients_in_system_absolute_freq": [0.0 for n in range(config["num_delays_required"])],
             "num_without_service": 0,
             "server_busy": False,
             "time_last_event": 0.0,
@@ -60,10 +61,14 @@ def timing(event_list):
 # Update time-average statistical accumulators
 def update_time_stats(model):
     time_since_last_event = model["time"] - model["time_last_event"]
+
     # N Clients in queue probabilities
-    model["clients_in_queue_absolute_freq"][
+    model["clients_in_queue_absolute_freq"][model["num_in_queue"]] += time_since_last_event
+    # N Clients in system probabilities
+    model["clients_in_system_absolute_freq"][
         model["num_in_queue"] + model["server_busy"]
     ] += time_since_last_event
+
     model["area_num_in_queue"] += time_since_last_event * model["num_in_queue"]
     model["area_server_status"] += time_since_last_event * int(model["server_busy"])
     model["time_last_event"] = model["time"]
@@ -132,6 +137,10 @@ def final_report(results_time, model):
     n_clients_in_queue_probability_array = [
         time_n_clients / model["time"] for time_n_clients in model["clients_in_queue_absolute_freq"]
     ]
+    n_clients_in_system_probability_array = [
+        time_n_clients / model["time"]
+        for time_n_clients in model["clients_in_system_absolute_freq"]
+    ]
     client_not_getting_service_probability = (
         model["num_without_service"] / model["num_customers_delayed"]
     )
@@ -143,6 +152,7 @@ def final_report(results_time, model):
         "avg_num_in_system": results_time["avg_num_in_system"],
         "server_utilization": results_time["server_utilization"],
         "n_clients_in_queue_probability_array": n_clients_in_queue_probability_array,
+        "n_clients_in_system_probability_array": n_clients_in_system_probability_array,
         "client_not_getting_service_probability": client_not_getting_service_probability,
         "total_time": model["time"],
     }

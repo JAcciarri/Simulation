@@ -53,7 +53,7 @@ def plot_bar(results_measures, expected, title, x_label, y_label, save, name):
     plt.title(title)
     plt.xlabel(x_label)
     plt.ylabel(y_label)
-    
+
     # Filtering only 0 to 20 customers in queue probability (Analytic Values)
     expected_pn_shortened = expected["Pn"][:20]
 
@@ -61,9 +61,16 @@ def plot_bar(results_measures, expected, title, x_label, y_label, save, name):
     average_observed_pn = list(map(np.mean, zip(*results_measures)))[:20]
 
     # Bars Graphs for Comparison
-    plt.bar(np.arange(len(expected_pn_shortened)), expected_pn_shortened, width=0.6, label="Expected values")
-    plt.bar(np.arange(len(average_observed_pn)), average_observed_pn, width=0.4, label="Observed values")
-    plt.xticks(np.arange(0, len(average_observed_pn)+1, 1.0))
+    plt.bar(
+        np.arange(len(expected_pn_shortened)),
+        expected_pn_shortened,
+        width=0.6,
+        label="Expected values",
+    )
+    plt.bar(
+        np.arange(len(average_observed_pn)), average_observed_pn, width=0.4, label="Observed values"
+    )
+    plt.xticks(np.arange(0, len(average_observed_pn) + 1, 1.0))
 
     # Details Config
     plt.tight_layout()
@@ -137,11 +144,11 @@ def plot_results(results, expected, save):
     )
 
     # N customers in queue probability
-    if (expected["Lq"] is not None):
+    if expected["Lq"] is not None:
         plot_bar(
-            [result["n_clients_in_queue_probability_array"] for result in results],
+            [result["n_clients_in_system_probability_array"] for result in results],
             expected=expected,
-            title="N customers in queue probability",
+            title="N customers in system probability",
             x_label="N customers",
             y_label="P(n)",
             save=save,

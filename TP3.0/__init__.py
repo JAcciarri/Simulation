@@ -33,7 +33,7 @@ from utils import get_expected_values
 # General Parameters
 n_runs = 10  # Iterations
 n_delays = 10000  # Max Customers Quantity
-selected_config = 2  # Configuration option selected from configs list
+selected_config = 5  # Configuration option selected from configs list
 save = {
     "mode": False,  # mode: True = Autosave Graphs
     "route": "graphs/",
