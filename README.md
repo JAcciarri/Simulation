@@ -15,7 +15,7 @@ Study and history of pseudorandom number generators. Randomness tests applied in
 ## [TP2.2] - Pseudorandoms with Different Distributions
 Study of pseudo-random numbers with different distribution's generator algorithms, then performing some tests on them
 
-## [TP3.0] - Single-server Queue System
+## [TP3.0] - Single-server Queuing System
 M/M/1 Queue Model: Simulation and Analysis
 
 [TP1.1]: ./TP1.1
