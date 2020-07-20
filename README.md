@@ -16,7 +16,7 @@ Study and history of pseudorandom number generators. Randomness tests applied in
 Study of pseudo-random numbers with different distribution's generator algorithms, then performing some tests on them
 
 ## [TP3.0] - Single-server Queuing System
-M/M/1 Queue Model: Simulation and Analysis
+M/M/1 Queue Model: Simulation and Analysis of common performance measures (Comparison: Python, AnyLogic, Analytic Model Results)
 
 [TP1.1]: ./TP1.1
 [TP1.2]: ./TP1.2
